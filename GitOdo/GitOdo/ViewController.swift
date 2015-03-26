@@ -7,128 +7,128 @@
 //
 
 import UIKit
+import WebKit
 import SwiftyJSON
 import Cartography
 
-// RefectorはSwiftでは使えない
-class ViewController: UIViewController {
+extension ViewController: ViewControllerLayout {
   
-  let refreshButtonItem = UIBarButtonItem(barButtonSystemItem: .Refresh, target: nil, action: "")
-  let repositoryButtonItem = UIBarButtonItem(barButtonSystemItem: .Organize, target: nil, action: "")
-  let issuesTableViewComponent = IssuesTableViewComponent()
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    self.configure()
-    self.configure_refreshButtonItem()
-    self.configure_repositoryButtonItem()
-    self.configure_issuesTableViewComponent()
-    self.navigationItem.leftBarButtonItem = self.refreshButtonItem
-    self.navigationItem.rightBarButtonItem = self.repositoryButtonItem
-    self.view.addSubview(self.issuesTableViewComponent.view)
+  func configure__self () {
+    self.title = ""
   }
   
-  override func viewDidAppear(animated: Bool) {
-    super.viewDidAppear(animated)
-    self.loadIssues()
+  func configure__settingButtonItem () {
+    self.settingButtonItem.title = "\u{f031}"
+    self.settingButtonItem.setTitleTextAttributes(
+      [NSFontAttributeName: UIFont(name: "octicons", size: 22)!],
+      forState: UIControlState.Normal
+    )
   }
   
-  override func viewDidLayoutSubviews() {
-    layout(self.issuesTableViewComponent.view) { issuesTableView in
+  func autolayout__tableView () {
+    layout(self.tableViewComponent) { issuesTableView in
       issuesTableView.edges == issuesTableView.superview!.edges
       return
     }
   }
   
-  func configure () {
-    self.title = "GitOdo"
+  func render () {
+    self.navigationItem.rightBarButtonItem = self.settingButtonItem
+    self.tableViewComponent.render(self.view)
+    self.configure__self()
+    self.configure__settingButtonItem()
+    self.autolayout__tableView()
   }
   
-  func configure_refreshButtonItem () {
-    self.refreshButtonItem.target = self
-    self.refreshButtonItem.action = "loadIssues"
+}
+
+class ViewController: UIViewController, UITableViewDelegate {
+  
+  let settingButtonItem = UIBarButtonItem()
+  let tableViewComponent = TaskTableViewComponent()
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    self.settingButtonItem.target = self
+    self.settingButtonItem.action = "pushSettingViewController:"
+    self.tableViewComponent.delegate = self
+    self.tableViewComponent.refreshControl.addTarget(self, action: "fetchData", forControlEvents: .ValueChanged)
+    self.render()
+    self.fetchData()
   }
   
-  func configure_repositoryButtonItem () {
-    self.repositoryButtonItem.target = self
-    self.repositoryButtonItem.action = "pushRepositoryViewController:"
+  func fetchData () {
+    self.tableViewComponent.refreshControl.endRefreshing()
+    self.fetchIssuesData()
+    self.fetchPullRequestsData()
   }
   
-  func configure_issuesTableViewComponent () {
-  }
-  
-  func loadIssues () {
-    for repository in ArchiveConnection.sharedInstance.repositories {
+  func fetchIssuesData () {
+    for repository in ArchiveConnection.sharedInstance().repositories {
       GithubConnection.requestIssues(repository, callback: { (issues) in
-        self.issuesTableViewComponent.addRepository(repository, issues: issues)
-        self.issuesTableViewComponent.cleaning()
-        self.issuesTableViewComponent.view.reloadData()
+        self.tableViewComponent.addRepository(repository, issues: issues)
+        self.tableViewComponent.reloadData()
       })
     }
   }
   
-  func removeIssues () {
+  func fetchPullRequestsData () {
+    for repository in ArchiveConnection.sharedInstance().repositories {
+      GithubConnection.requestPullRequests(repository, callback: { (pullRequests) in
+        self.tableViewComponent.addRepository(repository, pullRequests: pullRequests)
+        self.tableViewComponent.reloadData()
+      })
+    }
   }
   
-  func pushRepositoryViewController (sender: UIBarButtonItem) {
+  func pushSettingViewController (sender: UIBarButtonItem) {
     self.navigationController?.pushViewController(
-      RepositoryViewController(),
+      SettingViewController(),
       animated: true
     )
   }
   
-  func issuesMock () -> [IssueObject] {
-    var sampleJSON = [
-      "url": "https://api.github.com/repos/bonegollira/GitOdo.dev/issues/2",
-      "labels_url": "https://api.github.com/repos/bonegollira/GitOdo.dev/issues/2/labels{/name}",
-      "comments_url": "https://api.github.com/repos/bonegollira/GitOdo.dev/issues/2/comments",
-      "events_url": "https://api.github.com/repos/bonegollira/GitOdo.dev/issues/2/events",
-      "html_url": "https://github.com/bonegollira/GitOdo.dev/issues/2",
-      "id": 58496142,
-      "number": 2,
-      "title": "アット付きaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "user": [
-        "login": "bonegollira",
-        "id": 2216415,
-        "avatar_url": "https://avatars.githubusercontent.com/u/2216415?v=3",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/bonegollira",
-        "html_url": "https://github.com/bonegollira",
-        "followers_url": "https://api.github.com/users/bonegollira/followers",
-        "following_url": "https://api.github.com/users/bonegollira/following{/other_user}",
-        "gists_url": "https://api.github.com/users/bonegollira/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/bonegollira/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/bonegollira/subscriptions",
-        "organizations_url": "https://api.github.com/users/bonegollira/orgs",
-        "repos_url": "https://api.github.com/users/bonegollira/repos",
-        "events_url": "https://api.github.com/users/bonegollira/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/bonegollira/received_events",
-        "type": "User",
-        "site_admin": false
-      ],
-      "labels": [],
-      "state": "open",
-      "locked": false,
-      "assignee": NSNull(),
-      "milestone": NSNull(),
-      "comments": 0,
-      "created_at": "2015-02-22T09:04:19Z",
-      "updated_at": "2015-02-22T09:04:19Z",
-      "closed_at": NSNull(),
-      "body": "@boengollira 頑張れ"
-    ]
+  func pushWKWebViewController (url: String) {
+    let webViewController = WKWebViewController()
+    self.navigationController?.pushViewController(
+      webViewController,
+      animated: true
+    )
+    webViewController.loadURLString(url)
+  }
+  
+  func didSelectedIssue (issue: IssueObject) {
+    self.pushWKWebViewController(issue.html_url)
+  }
+  
+  func didSelectedPullRequest(pullRequest: PullRequestObject) {
+    self.pushWKWebViewController(pullRequest.html_url)
+  }
+  
+  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 25
+  }
+  
+  func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
+      TaskTableViewHeaderView.identifier
+      ) as TaskTableViewHeaderView
+    let repositoryName = self.tableViewComponent.data.repositories[section]
+    let rowCount = self.tableViewComponent.data.getCellCount(section)
+    headerView.repositoryName = repositoryName
+    headerView.rowCount = rowCount
+    return headerView
+  }
+  
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    let repository = self.tableViewComponent.data.getRepository(indexPath.section)
     
-    return [
-      IssueObject(issue: JSON(sampleJSON)),
-      IssueObject(issue: JSON(sampleJSON)),
-      IssueObject(issue: JSON(sampleJSON)),
-      IssueObject(issue: JSON(sampleJSON)),
-      IssueObject(issue: JSON(sampleJSON)),
-      IssueObject(issue: JSON(sampleJSON)),
-      IssueObject(issue: JSON(sampleJSON)),
-      IssueObject(issue: JSON(sampleJSON)),
-      IssueObject(issue: JSON(sampleJSON))
-    ]
+    if let pullRequest = self.tableViewComponent.data.getPullRequest(indexPath) {
+      self.pushWKWebViewController(pullRequest.html_url)
+    }
+    else if let issue = self.tableViewComponent.data.getIssue(indexPath) {
+      self.pushWKWebViewController(issue.html_url)
+    }
   }
 }
 

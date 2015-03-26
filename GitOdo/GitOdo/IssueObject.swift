@@ -11,6 +11,7 @@ import SwiftyJSON
 
 class IssueObject: NSObject {
   
+  let type = "issue"
   let url: String
   let labels_url: String
   let comments_url: String
@@ -54,44 +55,3 @@ class IssueObject: NSObject {
   }
    
 }
-/*
-{
-url: "https://api.github.com/repos/bonegollira/GitOdo.dev/issues/2",
-labels_url: "https://api.github.com/repos/bonegollira/GitOdo.dev/issues/2/labels{/name}",
-comments_url: "https://api.github.com/repos/bonegollira/GitOdo.dev/issues/2/comments",
-events_url: "https://api.github.com/repos/bonegollira/GitOdo.dev/issues/2/events",
-html_url: "https://github.com/bonegollira/GitOdo.dev/issues/2",
-id: 58496142,
-number: 2,
-title: "アット付き",
-user: {
-login: "bonegollira",
-id: 2216415,
-avatar_url: "https://avatars.githubusercontent.com/u/2216415?v=3",
-gravatar_id: "",
-url: "https://api.github.com/users/bonegollira",
-html_url: "https://github.com/bonegollira",
-followers_url: "https://api.github.com/users/bonegollira/followers",
-following_url: "https://api.github.com/users/bonegollira/following{/other_user}",
-gists_url: "https://api.github.com/users/bonegollira/gists{/gist_id}",
-starred_url: "https://api.github.com/users/bonegollira/starred{/owner}{/repo}",
-subscriptions_url: "https://api.github.com/users/bonegollira/subscriptions",
-organizations_url: "https://api.github.com/users/bonegollira/orgs",
-repos_url: "https://api.github.com/users/bonegollira/repos",
-events_url: "https://api.github.com/users/bonegollira/events{/privacy}",
-received_events_url: "https://api.github.com/users/bonegollira/received_events",
-type: "User",
-site_admin: false
-},
-labels: [ ],
-state: "open",
-locked: false,
-assignee: null,
-milestone: null,
-comments: 0,
-created_at: "2015-02-22T09:04:19Z",
-updated_at: "2015-02-22T09:04:19Z",
-closed_at: null,
-body: "@boengollira 頑張れ"
-},
-*/
