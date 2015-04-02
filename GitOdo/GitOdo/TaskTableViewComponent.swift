@@ -54,8 +54,8 @@ class TaskTableViewComponent: UITableView, UITableViewDelegate {
     if issues.count == 0 {
       return
     }
-    if !contains(self.data.repositories, repository.owerRepo) {
-      self.data.repositories.append(repository.owerRepo)
+    if !contains(self.data.repositories, repository) {
+      self.data.repositories.append(repository)
     }
     self.data.issues[repository.owerRepo] = issues
     self.reloadData()
@@ -65,8 +65,8 @@ class TaskTableViewComponent: UITableView, UITableViewDelegate {
     if pullRequests.count == 0 {
       return
     }
-    if !contains(self.data.repositories, repository.owerRepo) {
-      self.data.repositories.append(repository.owerRepo)
+    if !contains(self.data.repositories, repository) {
+      self.data.repositories.append(repository)
     }
     self.data.pullRequests[repository.owerRepo] = pullRequests
     self.reloadData()

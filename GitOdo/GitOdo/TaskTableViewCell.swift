@@ -107,6 +107,14 @@ class TaskTableViewCell: UITableViewCell {
     }
   }
   
+  var isAtYou: Bool = false {
+    didSet {
+      if isAtYou {
+        self.typeIcon.textColor = rgba(255, 128, 0)
+      }
+    }
+  }
+  
   //  var userIconUrl: String? {
   //    didSet {
   //      self.userIconImageView.image = nil

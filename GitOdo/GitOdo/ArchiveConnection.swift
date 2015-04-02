@@ -95,7 +95,7 @@ class ArchiveConnection: NSObject {
     }
   }
   
-  func addGithub (accessToken: String, host: String = "") {
+  func addGithub (account: String, accessToken: String, host: String = "") {
     if !accessToken.canBeConvertedToEncoding(NSASCIIStringEncoding) {
       return
     }
@@ -103,8 +103,7 @@ class ArchiveConnection: NSObject {
       return
     }
     
-    
-    let github = GithubObject(accessToken: accessToken)
+    let github = GithubObject(account: account, accessToken: accessToken)
     if !host.isEmpty {
       github.host = host
     }

@@ -113,9 +113,9 @@ class ViewController: UIViewController, UITableViewDelegate {
     let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
       TaskTableViewHeaderView.identifier
       ) as TaskTableViewHeaderView
-    let repositoryName = self.tableViewComponent.data.repositories[section]
+    let repository = self.tableViewComponent.data.repositories[section]
     let rowCount = self.tableViewComponent.data.getCellCount(section)
-    headerView.repositoryName = repositoryName
+    headerView.repositoryName = repository.owerRepo
     headerView.rowCount = rowCount
     return headerView
   }
