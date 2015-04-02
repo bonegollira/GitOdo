@@ -53,7 +53,7 @@ class SettingTableViewDataSource: NSObject, UITableViewDataSource {
       let github = githubs[indexPath.row]
       let isLastCell = (indexPath.row + 1) == githubs.count
       cell.title = github.accessToken
-      cell.subtitle = github.host
+      cell.subtitle = "\(github.account) (\(github.host))"
       cell.isLastCell = isLastCell
     }
     

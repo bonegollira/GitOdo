@@ -17,9 +17,11 @@ class GithubObject: NSObject {
   }
   var apiRoot: String = "https://api.github.com"
   var accessToken: String
+  var account: String
   
-  init (accessToken: String) {
+  init (account: String, accessToken: String) {
     self.accessToken = accessToken
+    self.account = account
     super.init()
   }
   
@@ -27,12 +29,14 @@ class GithubObject: NSObject {
     self.host = aDecoder.decodeObjectForKey("host") as String
     self.apiRoot = aDecoder.decodeObjectForKey("apiRoot") as String
     self.accessToken = aDecoder.decodeObjectForKey("accessToken") as String
+    self.account = aDecoder.decodeObjectForKey("account") as String
   }
   
   func encodeWithCoder(aCoder: NSCoder) {
     aCoder.encodeObject(self.host, forKey: "host")
     aCoder.encodeObject(self.apiRoot, forKey: "apiRoot")
     aCoder.encodeObject(self.accessToken, forKey: "accessToken")
+    aCoder.encodeObject(self.account, forKey: "account")
   }
   
   func api (type: String, repo: String) -> String {

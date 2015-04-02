@@ -41,7 +41,7 @@ extension SettingViewController: ViewControllerLayout {
       addGithubField.left == addGithubField.superview!.left
       addGithubField.right == addGithubField.superview!.right
       addGithubField.top == addGithubField.superview!.top
-      addGithubField.height == 88
+      addGithubField.height == 132
     }
   }
   
@@ -76,6 +76,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
     SomeTextFieldConfigure(id: "enterprise", placeholder: "(https://api.github.com/)", required: false)
     ])
   let addGithubFieldComponent = SomeTextFieldComponent(configures: [
+    SomeTextFieldConfigure(id: "account", placeholder: "your acoount", required: true),
     SomeTextFieldConfigure(id: "accessToken", placeholder: "access token", required: true),
     SomeTextFieldConfigure(id: "host", placeholder: "(github.com)", required: false)
     ])
@@ -134,7 +135,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
     }
     if component.isEqual(self.addGithubFieldComponent) {
       ArchiveConnection.sharedInstance().addGithub(
-        texts["accessToken"]!,
+        texts["account"]!,
+        accessToken: texts["accessToken"]!,
         host: texts["host"]!
       )
     }
