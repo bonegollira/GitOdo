@@ -77,8 +77,6 @@ class ArchiveConnection: NSObject {
       return
     }
     
-    let github = self.githubs
-    
     let repository = enterprise.isEmpty ? RepositoryObject(
       ower: ower,
       repo: repo
