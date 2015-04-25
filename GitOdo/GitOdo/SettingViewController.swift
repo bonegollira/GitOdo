@@ -69,7 +69,7 @@ extension SettingViewController: ViewControllerLayout {
 
 class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldViewDelegate {
   
-  let tableViewComponent = SettingTableViewComponent()
+  let tableViewComponent = SettingTableViewComponent(frame: CGRectZero)
   let addRepositoryFieldComponent = SomeTextFieldComponent(configures: [
     SomeTextFieldConfigure(id: "ower", placeholder: "user or organization", required: true),
     SomeTextFieldConfigure(id: "repository", placeholder: "repository", required: true),
@@ -144,7 +144,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
   }
   
   func bindRemoveButton (indexPath: NSIndexPath) {
-    let cell = self.tableViewComponent.cellForRowAtIndexPath(indexPath) as SettingTableViewCell
+    let cell = self.tableViewComponent.cellForRowAtIndexPath(indexPath) as! SettingTableViewCell
     UIView.animateWithDuration(0.3, animations: {
       cell.deleteIcon.alpha = 1.0
     })
@@ -152,7 +152,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
   }
   
   func unbindRemoveButton (indexPath: NSIndexPath) {
-    let cell = self.tableViewComponent.cellForRowAtIndexPath(indexPath) as SettingTableViewCell
+    let cell = self.tableViewComponent.cellForRowAtIndexPath(indexPath) as! SettingTableViewCell
     UIView.animateWithDuration(0.3, animations: {
       cell.deleteIcon.alpha = 0.0
     })
@@ -162,10 +162,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
   func removeArchive (sender: UITapGestureRecognizer) {
     if let indexPath = self.selectingIndexPath {
       if indexPath.section == 0 {
-        ArchiveConnection.sharedInstance().removeRepository(indexPath.row)
+        ArchiveConnection.sharedInstance().removeRepository(index: indexPath.row)
       }
       if indexPath.section == 1 {
-        ArchiveConnection.sharedInstance().removeGithub(indexPath.row)
+        ArchiveConnection.sharedInstance().removeGithub(index: indexPath.row)
       }
       self.selectingIndexPath = nil
     }
@@ -196,7 +196,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
   func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
       SettingTableHeaderView.identifier
-      ) as SettingTableHeaderView
+      ) as! SettingTableHeaderView
     
     headerView.sectionName = self.tableViewComponent.data.sectionData[section].name
     return headerView
@@ -205,7 +205,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
   func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
     let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
       SettingTableFooterView.identifier
-      ) as SettingTableFooterView
+      ) as! SettingTableFooterView
     
     footerView.addIcon.addGestureRecognizer(self.tableViewComponent.data.sectionData[section].tapGesture)
     return footerView
@@ -214,7 +214,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
   func tableView(tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
     let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
       SettingTableFooterView.identifier
-      ) as SettingTableFooterView
+      ) as! SettingTableFooterView
     
     footerView.addIcon.removeGestureRecognizer(self.tableViewComponent.data.sectionData[section].tapGesture)
   }

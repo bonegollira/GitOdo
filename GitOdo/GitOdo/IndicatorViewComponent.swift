@@ -55,7 +55,7 @@ class IndicatorViewComponent: UIView {
     super.init(coder: aDecoder)
   }
   
-  override init() {
+  init() {
     super.init(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     self.render()
   }

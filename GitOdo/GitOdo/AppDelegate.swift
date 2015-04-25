@@ -28,9 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   func applicationDidEnterBackground(application: UIApplication) {
+    UIApplication.sharedApplication().idleTimerDisabled = false
   }
   
   func applicationWillEnterForeground(application: UIApplication) {
+    UIApplication.sharedApplication().idleTimerDisabled = true
   }
   
   func applicationDidBecomeActive(application: UIApplication) {

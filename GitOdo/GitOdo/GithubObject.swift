@@ -26,10 +26,10 @@ class GithubObject: NSObject {
   }
   
   required init(coder aDecoder: NSCoder) {
-    self.host = aDecoder.decodeObjectForKey("host") as String
-    self.apiRoot = aDecoder.decodeObjectForKey("apiRoot") as String
-    self.accessToken = aDecoder.decodeObjectForKey("accessToken") as String
-    self.account = aDecoder.decodeObjectForKey("account") as String
+    self.host = aDecoder.decodeObjectForKey("host") as! String
+    self.apiRoot = aDecoder.decodeObjectForKey("apiRoot") as! String
+    self.accessToken = aDecoder.decodeObjectForKey("accessToken") as! String
+    self.account = aDecoder.decodeObjectForKey("account") as! String
   }
   
   func encodeWithCoder(aCoder: NSCoder) {

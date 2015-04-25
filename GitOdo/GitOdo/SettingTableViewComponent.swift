@@ -43,7 +43,7 @@ class SettingTableViewComponent: UITableView, ArchiveConnectionDelegate {
     super.init(coder: aDecoder)
   }
   
-  override init () {
+  override init (frame: CGRect) {
     super.init(frame: CGRectZero, style: .Grouped)
     self.dataSource = self.data
     ArchiveConnection.sharedInstance().delegate = self
