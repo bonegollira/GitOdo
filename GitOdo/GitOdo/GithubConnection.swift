@@ -34,7 +34,7 @@ class GithubConnection: NSObject {
   
   class func requestIssues (repository: RepositoryObject, callback: ([IssueObject]) -> Void) {
     
-    if let github = ArchiveConnection.sharedInstance().getGithub(repository) {
+    if let github = ArchiveConnection.sharedInstance().getGithub(repository: repository) {
       let entrypoint = github.api("issues", repo: repository.owerRepo)
       let parameters = [
         "access_token": github.accessToken
@@ -42,7 +42,7 @@ class GithubConnection: NSObject {
       
       GithubConnection
         .request(entrypoint, parameters: parameters)
-        .responseJSON({ (request, responce, anyObject, error) in
+        .responseJSON(completionHandler: {(request, responce, anyObject, error) in
           if let array = anyObject as? Array<AnyObject> {
             var issues = array.map({ IssueObject(issue: JSON($0)) })
             callback(issues)
@@ -59,7 +59,7 @@ class GithubConnection: NSObject {
   
   class func requestPullRequests (repository: RepositoryObject, callback: ([PullRequestObject]) -> Void) {
     
-    if let github = ArchiveConnection.sharedInstance().getGithub(repository) {
+    if let github = ArchiveConnection.sharedInstance().getGithub(repository: repository) {
       let entrypoint = github.api("pulls", repo: repository.owerRepo)
       let parameters = [
         "access_token": github.accessToken
@@ -67,7 +67,7 @@ class GithubConnection: NSObject {
       
       GithubConnection
         .request(entrypoint, parameters: parameters)
-        .responseJSON({ (request, responce, anyObject, error) in
+        .responseJSON(completionHandler: {(request, responce, anyObject, error) in
           if let array = anyObject as? Array<AnyObject> {
             var pullRequests = array.map({ PullRequestObject(pullRequest: JSON($0)) })
             callback(pullRequests)
@@ -86,7 +86,7 @@ class GithubConnection: NSObject {
     Alamofire
       .request(.GET, gravatar)
       .response({ (request, responce, data, error) in
-        if let image = UIImage(data: data? as NSData) {
+        if let image = UIImage(data: data as! NSData) {
           callback(image)
         }
       })

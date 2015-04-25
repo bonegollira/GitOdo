@@ -70,10 +70,10 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource {
     let cell = tableView.dequeueReusableCellWithIdentifier(
       TaskTableViewCell.identifier,
       forIndexPath: indexPath
-      ) as TaskTableViewCell
+      ) as! TaskTableViewCell
     
     let repository = self.getRepository(indexPath.section)
-    let github = ArchiveConnection.sharedInstance().getGithub(repository)!
+    let github = ArchiveConnection.sharedInstance().getGithub(repository: repository)!
     
     cell.isEmptyCell = false
     

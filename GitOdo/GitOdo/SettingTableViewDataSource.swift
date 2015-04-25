@@ -38,7 +38,7 @@ class SettingTableViewDataSource: NSObject, UITableViewDataSource {
     let cell = tableView.dequeueReusableCellWithIdentifier(
       SettingTableViewCell.identifier,
       forIndexPath: indexPath
-      ) as SettingTableViewCell
+      ) as! SettingTableViewCell
     
     if indexPath.section == 0 {
       let repositories = ArchiveConnection.sharedInstance().repositories

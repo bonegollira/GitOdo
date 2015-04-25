@@ -53,6 +53,7 @@ class PullRequestObject: NSObject {
     self.patch_url = pullRequest["patch_url"].stringValue
     self.pullRequest_url = pullRequest["pullRequest_url"].stringValue
     self.merge_commit_sha = pullRequest["merge_commit_sha"].stringValue
+    self.merged_at = pullRequest["merged_at"].stringValue
     super.init()
   }
 }

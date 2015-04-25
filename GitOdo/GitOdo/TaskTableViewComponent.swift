@@ -45,7 +45,7 @@ class TaskTableViewComponent: UITableView, UITableViewDelegate {
     super.init(coder: aDecoder)
   }
   
-  override init () {
+  init () {
     super.init(frame: CGRectZero, style: .Plain)
     self.dataSource = self.data
   }

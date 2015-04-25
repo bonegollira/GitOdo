@@ -112,7 +112,7 @@ class ViewController: UIViewController, UITableViewDelegate {
   func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
       TaskTableViewHeaderView.identifier
-      ) as TaskTableViewHeaderView
+      ) as! TaskTableViewHeaderView
     let repository = self.tableViewComponent.data.repositories[section]
     let rowCount = self.tableViewComponent.data.getCellCount(section)
     headerView.repositoryName = repository.owerRepo

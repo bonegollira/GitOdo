@@ -50,12 +50,12 @@ class ArchiveConnection: NSObject {
     self.githubs = self.unarchiveGithubs()
   }
   
-  func getGithub (repository: RepositoryObject) -> GithubObject? {
-    return self.getGithub(repository.host)
+  func getGithub (repository _repository: RepositoryObject) -> GithubObject? {
+    return self.getGithub(host: _repository.host)
   }
   
-  func getGithub (host: String) -> GithubObject? {
-    let someGithub = self.githubs.filter({ host == $0.host })
+  func getGithub (host _host: String) -> GithubObject? {
+    let someGithub = self.githubs.filter({ _host == $0.host })
     return someGithub.count > 0 ? someGithub.first : nil
   }
   
@@ -121,8 +121,8 @@ class ArchiveConnection: NSObject {
     }
   }
   
-  func removeRepository (index: Int) {
-    self.removeRepository(self.repositories[index], index: index)
+  func removeRepository (index _index: Int) {
+    self.removeRepository(self.repositories[_index], index: _index)
   }
   
   func removeGithub (github: GithubObject, index: Int) {
@@ -136,8 +136,8 @@ class ArchiveConnection: NSObject {
     }
   }
   
-  func removeGithub (index: Int) {
-    self.removeGithub(self.githubs[index], index: index)
+  func removeGithub (index _index: Int) {
+    self.removeGithub(self.githubs[_index], index: _index)
   }
   
   func unarchiveRepositories () -> [RepositoryObject] {

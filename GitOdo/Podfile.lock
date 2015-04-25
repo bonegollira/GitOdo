@@ -1,16 +1,16 @@
 PODS:
-  - Alamofire (1.1.4)
-  - Cartography (0.2.0)
-  - SwiftyJSON (2.1.3)
+  - Alamofire (1.2.0)
+  - Cartography (0.5.0)
+  - SwiftyJSON (2.2.0)
 
 DEPENDENCIES:
-  - Alamofire (= 1.1.4)
-  - Cartography (= 0.2.0)
-  - SwiftyJSON (= 2.1.3)
+  - Alamofire (= 1.2.0)
+  - Cartography (= 0.5.0)
+  - SwiftyJSON (= 2.2.0)
 
 SPEC CHECKSUMS:
-  Alamofire: 524225da382071ee3e6d0badd0ee4b4dc36740de
-  Cartography: 82082ab11fbb158499ca8d05ac74e18ae26da01d
-  SwiftyJSON: 48be7490a3989a58a3f511cd54167f0a2b466e76
+  Alamofire: d765c5c1713aa64106b0228aaa600a1e6851f68d
+  Cartography: 774e5cc446f5a6bca5d4345c5aa6af9a1fe74dc6
+  SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
 
 COCOAPODS: 0.36.0.beta.2

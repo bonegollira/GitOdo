@@ -10,8 +10,8 @@ import UIKit
 
 struct SomeTextFieldConfigure {
   let id: String
-  let placeholder: String?
-  let required: Bool = false
+  let placeholder: String
+  let required: Bool
 }
 
 class SomeTextField: UITextField {
