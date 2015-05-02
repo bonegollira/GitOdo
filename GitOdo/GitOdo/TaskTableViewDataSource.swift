@@ -80,6 +80,7 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource {
     if let pullRequest = self.getPullRequest(indexPath) {
       cell.title = pullRequest.title
       cell.type = "pullRequest"
+      cell.issueNumber = pullRequest.number
       if let range = pullRequest.body?.rangeOfString("@\(github.account)") {
         cell.isAtYou = true;
       } else {
@@ -89,6 +90,7 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource {
     else if let issue = self.getIssue(indexPath) {
       cell.title = issue.title
       cell.type = "issue"
+      cell.issueNumber = issue.number
       if let range = issue.body?.rangeOfString("@\(github.account)") {
         cell.isAtYou = true;
       } else {
