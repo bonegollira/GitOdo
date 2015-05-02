@@ -38,10 +38,19 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
     self.actionIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
   }
   
+  func configure__issueNumberLabel () {
+    self.issueNumberLabel.font = UIFont(name: "Helvetica-Bold", size: 10)
+    self.issueNumberLabel.textAlignment = .Left
+    self.issueNumberLabel.textColor = UIColor.lightGrayColor()
+    self.issueNumberLabel.backgroundColor = UIColor.clearColor()
+    self.issueNumberLabel.lineBreakMode = NSLineBreakMode.ByCharWrapping
+    self.issueNumberLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+  }
+  
   func autolayout__typeIcon () {
     layout(self.typeIcon) { typeIcon in
       typeIcon.left == typeIcon.superview!.left + 20
-      typeIcon.centerY == typeIcon.superview!.centerY
+      typeIcon.top == typeIcon.superview!.top + 20
       typeIcon.width == 20
       typeIcon.height == 20
     }
@@ -55,12 +64,20 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
       actionIcon.height == 20
     }
   }
+  
   func autolayout__titleLabel () {
     layout(self.titleLabel, self.typeIcon, self.actionIcon) { titleLabel, typeIcon, actionIcon in
       titleLabel.left == typeIcon.right + 20
       titleLabel.right == actionIcon.left - 20
       titleLabel.top == titleLabel.superview!.top + 20
-      titleLabel.bottom == titleLabel.superview!.bottom - 20 ~ 249
+    }
+  }
+  
+  func autolayout__issueNumberLabel () {
+    layout(self.issueNumberLabel, self.titleLabel) { issueNumberLabel, titleLabel in
+      issueNumberLabel.left == titleLabel.left
+      issueNumberLabel.top == titleLabel.bottom + 5
+      issueNumberLabel.bottom == issueNumberLabel.superview!.bottom - 20 ~ 250
     }
   }
   
@@ -68,13 +85,16 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
     self.contentView.addSubview(self.typeIcon)
     self.contentView.addSubview(self.titleLabel)
     self.contentView.addSubview(self.actionIcon)
+    self.contentView.addSubview(self.issueNumberLabel)
     self.configure__self()
     self.configure__titleLlbel()
     self.configure__typeIcon()
     self.configure__actionIcon()
+    self.configure__issueNumberLabel()
     self.autolayout__titleLabel()
     self.autolayout__typeIcon()
     self.autolayout__actionIcon()
+    self.autolayout__issueNumberLabel()
   }
   
 }
@@ -85,9 +105,9 @@ class TaskTableViewCell: UITableViewCell {
     return "TaskTableViewCell"
   }
   
-  var title: String? {
+  var title: String {
     get {
-      return self.titleLabel.text
+      return self.titleLabel.text ?? ""
     }
     set {
       self.titleLabel.text = newValue
@@ -112,6 +132,15 @@ class TaskTableViewCell: UITableViewCell {
       if isAtYou {
         self.typeIcon.textColor = rgba(255, 128, 0)
       }
+    }
+  }
+  
+  var issueNumber: Int {
+    get {
+      return self.issueNumberLabel.text?.toInt() ?? 0
+    }
+    set {
+      self.issueNumberLabel.text = "#\(newValue)"
     }
   }
   
@@ -150,6 +179,7 @@ class TaskTableViewCell: UITableViewCell {
   let titleLabel = UILabel()
   let typeIcon = UILabel()
   let actionIcon = UILabel()
+  let issueNumberLabel = UILabel()
   
   required init(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
