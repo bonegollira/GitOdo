@@ -14,8 +14,6 @@ extension TaskTableViewComponent: ViewComponentsLayout {
   func configure__self () {
     self.backgroundColor = rgba(230, 230, 230)
     self.separatorStyle = .None
-    self.estimatedRowHeight = 65
-    self.rowHeight = UITableViewAutomaticDimension
     self.registerClass(
       TaskTableViewCell.self,
       forCellReuseIdentifier: TaskTableViewCell.identifier
