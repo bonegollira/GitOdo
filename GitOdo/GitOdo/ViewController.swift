@@ -129,6 +129,8 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
     self.pushWKWebViewController(pullRequest.html_url)
   }
   
+  // MARK: UITableViewDelegate
+  
   func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     return 25
   }
@@ -144,6 +146,20 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
     headerView.rowCount = rowCount
     headerView.section = section
     return headerView
+  }
+  
+  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    var title: String = ""
+    var issueNumber: Int = 0
+    if let pullRequest = self.tableViewComponent.data.pullRequest(indexPath) {
+      title = pullRequest.title
+      issueNumber = pullRequest.number
+    }
+    else if let issue = self.tableViewComponent.data.issue(indexPath) {
+      title = issue.title
+      issueNumber = issue.number
+    }
+    return TaskTableViewCell.height(self.tableViewComponent, title: title, issueNumber: issueNumber)
   }
   
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

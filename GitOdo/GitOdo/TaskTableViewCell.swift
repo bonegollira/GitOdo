@@ -11,6 +11,33 @@ import Cartography
 
 extension TaskTableViewCell: ViewComponentsDequeueLayout {
   
+  struct Sizing {
+    static var cell: TaskTableViewCell?
+  }
+  
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    self.titleLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.titleLabel.bounds)
+    self.issueNumberLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.issueNumberLabel.bounds)
+  }
+  
+  class func height(tableView: TaskTableViewComponent, title: String, issueNumber: Int) -> CGFloat {
+    if Sizing.cell == nil {
+      Sizing.cell = tableView.dequeueReusableCellWithIdentifier(TaskTableViewCell.identifier) as? TaskTableViewCell
+    }
+    
+    if let cell = Sizing.cell {
+      cell.frame.size.width = CGRectGetWidth(tableView.bounds)
+      cell.title = title
+      cell.issueNumber = issueNumber
+      cell.layoutIfNeeded()
+      let size = cell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+      return size.height
+    }
+    
+    return 0.0
+  }
+  
   func configure__self () {
     self.selectionStyle = .Default
   }
