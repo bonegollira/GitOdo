@@ -159,23 +159,6 @@ class TaskTableViewCell: UITableViewCell {
   //    }
   //  }
   
-  var isEmptyCell: Bool = false {
-    didSet {
-      if isEmptyCell {
-        self.title = ""
-        self.typeIcon.text = ""
-        self.actionIcon.hidden = true
-        self.contentView.backgroundColor = rgba(230, 230, 230)
-        self.userInteractionEnabled = false
-      }
-      else {
-        self.actionIcon.hidden = false
-        self.contentView.backgroundColor = rgba(255, 255, 255)
-        self.userInteractionEnabled = true
-      }
-    }
-  }
-  
   let titleLabel = UILabel()
   let typeIcon = UILabel()
   let actionIcon = UILabel()
