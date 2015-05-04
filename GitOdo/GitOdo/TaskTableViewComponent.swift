@@ -49,24 +49,24 @@ class TaskTableViewComponent: UITableView, UITableViewDelegate {
   }
   
   func addRepository(repository: RepositoryObject, issues: [IssueObject]) {
+    self.data.issues[repository.owerRepo] = issues
     if issues.count == 0 {
       return
     }
     if !contains(self.data.repositories, repository) {
       self.data.repositories.append(repository)
     }
-    self.data.issues[repository.owerRepo] = issues
     self.reloadData()
   }
   
   func addRepository(repository: RepositoryObject, pullRequests: [PullRequestObject]) {
+    self.data.pullRequests[repository.owerRepo] = pullRequests
     if pullRequests.count == 0 {
       return
     }
     if !contains(self.data.repositories, repository) {
       self.data.repositories.append(repository)
     }
-    self.data.pullRequests[repository.owerRepo] = pullRequests
     self.reloadData()
   }
   
