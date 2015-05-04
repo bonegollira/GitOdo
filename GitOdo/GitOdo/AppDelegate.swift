@@ -36,11 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   func applicationDidBecomeActive(application: UIApplication) {
+    UIApplication.sharedApplication().idleTimerDisabled = true
   }
   
   func applicationWillTerminate(application: UIApplication) {
+    UIApplication.sharedApplication().idleTimerDisabled = false
   }
-  
-  
 }
 
