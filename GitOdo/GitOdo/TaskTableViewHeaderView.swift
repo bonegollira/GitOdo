@@ -58,17 +58,23 @@ extension TaskTableViewHeaderView: ViewComponentsDequeueLayout {
   
 }
 
+protocol TaskTableViewHeaderViewDelegate: NSObjectProtocol {
+  func taskTableViewHeaderView(headerView: TaskTableViewHeaderView, didSelectSection section: Int)
+}
+
 class TaskTableViewHeaderView: UITableViewHeaderFooterView {
 
   class var identifier: String {
     return "TaskTableViewHeaderView"
   }
+  
+  weak var delegate: TaskTableViewHeaderViewDelegate?
 
   let repositoryNameLabel = UILabel()
   let rowCountLabel = UILabel()
-  var repositoryName: String? {
+  var repositoryName: String {
     get {
-      return self.repositoryNameLabel.text
+      return self.repositoryNameLabel.text ?? ""
     }
     set {
       self.repositoryNameLabel.text = newValue
@@ -79,6 +85,7 @@ class TaskTableViewHeaderView: UITableViewHeaderFooterView {
       self.rowCountLabel.text = "\(rowCount)"
     }
   }
+  var section: Int = 0
   
   required init(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
@@ -91,5 +98,12 @@ class TaskTableViewHeaderView: UITableViewHeaderFooterView {
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)
     self.render()
+    self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didSelectSection:"))
+  }
+  
+  // MARK: TaskTableViewHeaderViewDelegate
+  
+  func didSelectSection (sender: UITapGestureRecognizer) {
+    self.delegate?.taskTableViewHeaderView(self, didSelectSection: self.section)
   }
 }
