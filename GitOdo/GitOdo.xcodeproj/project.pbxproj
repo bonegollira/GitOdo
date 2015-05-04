@@ -32,6 +32,7 @@
 		7E840F031ABF06A2009BC3A8 /* SettingTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E840F021ABF06A2009BC3A8 /* SettingTableViewDataSource.swift */; };
 		7E840F051ABF0DD2009BC3A8 /* SettingTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E840F041ABF0DD2009BC3A8 /* SettingTableHeaderView.swift */; };
 		7E840F091AC044A6009BC3A8 /* ViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E840F081AC044A6009BC3A8 /* ViewComponents.swift */; };
+		7E85EFE21AF73AE00017CCD0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E85EFE11AF73AE00017CCD0 /* Extensions.swift */; };
 		7EEC66F91A98765B0022DA2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EEC66F81A98765B0022DA2F /* AppDelegate.swift */; };
 		7EEC66FB1A98765B0022DA2F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EEC66FA1A98765B0022DA2F /* ViewController.swift */; };
 		7EEC66FE1A98765B0022DA2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC66FC1A98765B0022DA2F /* Main.storyboard */; };
@@ -79,6 +80,7 @@
 		7E840F021ABF06A2009BC3A8 /* SettingTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingTableViewDataSource.swift; path = GitOdo/SettingTableViewDataSource.swift; sourceTree = "<group>"; };
 		7E840F041ABF0DD2009BC3A8 /* SettingTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingTableHeaderView.swift; path = GitOdo/SettingTableHeaderView.swift; sourceTree = "<group>"; };
 		7E840F081AC044A6009BC3A8 /* ViewComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewComponents.swift; path = GitOdo/ViewComponents.swift; sourceTree = "<group>"; };
+		7E85EFE11AF73AE00017CCD0 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7EEC66F31A98765B0022DA2F /* GitOdo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitOdo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EEC66F71A98765B0022DA2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EEC66F81A98765B0022DA2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 			children = (
 				7E840EF21AB722AF009BC3A8 /* octicons.ttf */,
 				7E1C73BF1AAB25E00076266D /* Common.swift */,
+				7E85EFE11AF73AE00017CCD0 /* Extensions.swift */,
 				7EEC66F81A98765B0022DA2F /* AppDelegate.swift */,
 				7EEC66FA1A98765B0022DA2F /* ViewController.swift */,
 				7E1C73C11AABC9FB0076266D /* SettingViewController.swift */,
@@ -441,6 +444,7 @@
 				7E6D4AA91A99E35500F42CA3 /* RepositoryObject.swift in Sources */,
 				7EEC66F91A98765B0022DA2F /* AppDelegate.swift in Sources */,
 				7E1C73C41AADD39C0076266D /* ArchiveConnection.swift in Sources */,
+				7E85EFE21AF73AE00017CCD0 /* Extensions.swift in Sources */,
 				7E61E29B1A9A2C7700A7E2A0 /* IssueObject.swift in Sources */,
 				7E61E2A41A9B286400A7E2A0 /* TaskTableViewComponent.swift in Sources */,
 				7E1C73DC1AB26A760076266D /* IndicatorViewComponent.swift in Sources */,

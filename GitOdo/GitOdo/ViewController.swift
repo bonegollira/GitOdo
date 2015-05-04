@@ -25,6 +25,13 @@ extension ViewController: ViewControllerLayout {
     )
   }
   
+  func configure__searchBar () {
+    self.searchBar.enablesReturnKeyAutomatically = false
+    self.searchBar.placeholder = "search"
+    self.searchBar.keyboardType = UIKeyboardType.Default
+    self.searchBar.searchBarStyle = .Minimal
+  }
+  
   func autolayout__tableView () {
     layout(self.tableViewComponent) { issuesTableView in
       issuesTableView.edges == issuesTableView.superview!.edges
@@ -34,18 +41,22 @@ extension ViewController: ViewControllerLayout {
   
   func render () {
     self.navigationItem.rightBarButtonItem = self.settingButtonItem
+    self.navigationItem.titleView = self.searchBar
     self.tableViewComponent.render(self.view)
     self.configure__self()
     self.configure__settingButtonItem()
+    self.configure__searchBar()
     self.autolayout__tableView()
   }
   
 }
 
-class ViewController: UIViewController, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate {
   
   let settingButtonItem = UIBarButtonItem()
   let tableViewComponent = TaskTableViewComponent()
+  let searchBar = UISearchBar()
+  var shouldBeginSearching: Bool = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -53,6 +64,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     self.settingButtonItem.action = "pushSettingViewController:"
     self.tableViewComponent.delegate = self
     self.tableViewComponent.refreshControl.addTarget(self, action: "fetchData", forControlEvents: .ValueChanged)
+    self.searchBar.delegate = self
     self.render()
     self.fetchData()
   }
@@ -113,22 +125,42 @@ class ViewController: UIViewController, UITableViewDelegate {
     let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
       TaskTableViewHeaderView.identifier
       ) as! TaskTableViewHeaderView
-    let repository = self.tableViewComponent.data.repositories[section]
-    let rowCount = self.tableViewComponent.data.getCellCount(section)
-    headerView.repositoryName = repository.owerRepo
+    let sectionName = self.tableViewComponent.data.sectionName(section)
+    let rowCount = self.tableViewComponent.data.cellCount(section)
+    headerView.repositoryName = sectionName
     headerView.rowCount = rowCount
     return headerView
   }
   
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    let repository = self.tableViewComponent.data.getRepository(indexPath.section)
+    let repository = self.tableViewComponent.data.repositories[indexPath.section]
     
-    if let pullRequest = self.tableViewComponent.data.getPullRequest(indexPath) {
+    if let pullRequest = self.tableViewComponent.data.pullRequest(indexPath) {
       self.pushWKWebViewController(pullRequest.html_url)
     }
-    else if let issue = self.tableViewComponent.data.getIssue(indexPath) {
+    else if let issue = self.tableViewComponent.data.issue(indexPath) {
       self.pushWKWebViewController(issue.html_url)
     }
+  }
+  
+  // MARK: UISearchBarDelegate
+  
+  func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    let shouldBeginSearching = self.shouldBeginSearching
+    self.shouldBeginSearching = true
+    return shouldBeginSearching
+  }
+  
+  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    self.tableViewComponent.filterBySearchWord(searchText)
+    // for clear button
+    if !searchBar.isFirstResponder() {
+      self.shouldBeginSearching = false
+    }
+  }
+  
+  func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    searchBar.resignFirstResponder()
   }
 }
 

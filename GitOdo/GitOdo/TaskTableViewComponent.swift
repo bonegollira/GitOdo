@@ -71,4 +71,9 @@ class TaskTableViewComponent: UITableView, UITableViewDelegate {
     self.data.pullRequests[repository.owerRepo] = pullRequests
     self.reloadData()
   }
+  
+  func filterBySearchWord (searchWord: String) {
+    self.data.searchWord = searchWord
+    self.reloadData()
+  }
 }
