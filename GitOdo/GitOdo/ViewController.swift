@@ -51,7 +51,7 @@ extension ViewController: ViewControllerLayout {
   
 }
 
-class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate, TaskTableViewHeaderViewDelegate {
   
   let settingButtonItem = UIBarButtonItem()
   let tableViewComponent = TaskTableViewComponent()
@@ -82,6 +82,18 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
         self.tableViewComponent.reloadData()
       })
     }
+  }
+  
+  func fetchRepositoryByOwerRepo (owerRepo: String) {
+    let repository = ArchiveConnection.sharedInstance().repositories.filter({ $0.owerRepo.isEqual(owerRepo) })[0]
+    GithubConnection.requestIssues(repository, callback: { (issues) in
+      self.tableViewComponent.addRepository(repository, issues: issues)
+      self.tableViewComponent.reloadData()
+    })
+    GithubConnection.requestPullRequests(repository, callback: { (pullRequests) in
+      self.tableViewComponent.addRepository(repository, pullRequests: pullRequests)
+      self.tableViewComponent.reloadData()
+    })
   }
   
   func fetchPullRequestsData () {
@@ -127,8 +139,10 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
       ) as! TaskTableViewHeaderView
     let sectionName = self.tableViewComponent.data.sectionName(section)
     let rowCount = self.tableViewComponent.data.cellCount(section)
+    headerView.delegate = self
     headerView.repositoryName = sectionName
     headerView.rowCount = rowCount
+    headerView.section = section
     return headerView
   }
   
@@ -141,6 +155,12 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
     else if let issue = self.tableViewComponent.data.issue(indexPath) {
       self.pushWKWebViewController(issue.html_url)
     }
+  }
+  
+  // MARK: TaskTableViewHeaderViewDelegate
+  
+  func taskTableViewHeaderView(headerView: TaskTableViewHeaderView, didSelectSection section: Int) {
+    self.fetchRepositoryByOwerRepo(headerView.repositoryName)
   }
   
   // MARK: UISearchBarDelegate

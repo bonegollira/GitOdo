@@ -20,13 +20,29 @@ class GithubConnection: NSObject {
     return GithubConnectionProperty.requestingCount
   }
   
-  class func request (entrypoint: String, parameters: [String: AnyObject]?) -> Alamofire.Request {
+  class func URLRequest (entrypoint: String, headers: [String: String] = [:]) -> NSURLRequest {
+    let URL = NSURL(string: entrypoint)!
+    let request = NSMutableURLRequest(
+      URL: URL,
+      cachePolicy: .ReloadIgnoringLocalCacheData,
+      timeoutInterval: 5.0
+    )
+    for (field, value) in headers {
+      request.addValue(value, forHTTPHeaderField: field)
+    }
+    
+    return request
+  }
+  
+  class func request (entrypoint: String, parameters: [String: String] = [:]) -> Alamofire.Request {
+    let request = GithubConnection.URLRequest(entrypoint, headers: parameters)
     let app = UIApplication.sharedApplication()
     app.networkActivityIndicatorVisible = true
     GithubConnectionProperty.requestingCount++
     
     return Alamofire
-      .request(.GET, entrypoint, parameters: parameters)
+      .request(request)
+      //.request(.GET, entrypoint, parameters: parameters)
       .response({ (this, arguments, dont, use) in
         app.networkActivityIndicatorVisible = !(--GithubConnectionProperty.requestingCount == 0)
       })
@@ -37,7 +53,7 @@ class GithubConnection: NSObject {
     if let github = ArchiveConnection.sharedInstance().getGithub(repository: repository) {
       let entrypoint = github.api("issues", repo: repository.owerRepo)
       let parameters = [
-        "access_token": github.accessToken
+        "Authorization": "token \(github.accessToken)"
       ]
       
       GithubConnection
@@ -62,7 +78,7 @@ class GithubConnection: NSObject {
     if let github = ArchiveConnection.sharedInstance().getGithub(repository: repository) {
       let entrypoint = github.api("pulls", repo: repository.owerRepo)
       let parameters = [
-        "access_token": github.accessToken
+        "Authorization": "token \(github.accessToken)"
       ]
       
       GithubConnection
