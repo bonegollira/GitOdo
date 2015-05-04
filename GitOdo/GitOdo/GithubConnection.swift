@@ -20,7 +20,7 @@ class GithubConnection: NSObject {
     return GithubConnectionProperty.requestingCount
   }
   
-  class func URL (entrypoint: String, headers: [String: String] = [:]) -> NSMutableURLRequest {
+  class func URLRequest (entrypoint: String, headers: [String: String] = [:]) -> NSURLRequest {
     let URL = NSURL(string: entrypoint)!
     let request = NSMutableURLRequest(
       URL: URL,
@@ -35,7 +35,7 @@ class GithubConnection: NSObject {
   }
   
   class func request (entrypoint: String, parameters: [String: String] = [:]) -> Alamofire.Request {
-    let request = GithubConnection.URL(entrypoint, headers: parameters)
+    let request = GithubConnection.URLRequest(entrypoint, headers: parameters)
     let app = UIApplication.sharedApplication()
     app.networkActivityIndicatorVisible = true
     GithubConnectionProperty.requestingCount++
