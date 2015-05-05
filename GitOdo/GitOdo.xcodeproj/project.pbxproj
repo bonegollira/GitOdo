@@ -33,6 +33,7 @@
 		7E840F051ABF0DD2009BC3A8 /* SettingTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E840F041ABF0DD2009BC3A8 /* SettingTableHeaderView.swift */; };
 		7E840F091AC044A6009BC3A8 /* ViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E840F081AC044A6009BC3A8 /* ViewComponents.swift */; };
 		7E85EFE21AF73AE00017CCD0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E85EFE11AF73AE00017CCD0 /* Extensions.swift */; };
+		7EEAF02F1AF8A06E00836C99 /* ToDoObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EEAF02E1AF8A06E00836C99 /* ToDoObject.swift */; };
 		7EEC66F91A98765B0022DA2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EEC66F81A98765B0022DA2F /* AppDelegate.swift */; };
 		7EEC66FB1A98765B0022DA2F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EEC66FA1A98765B0022DA2F /* ViewController.swift */; };
 		7EEC66FE1A98765B0022DA2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC66FC1A98765B0022DA2F /* Main.storyboard */; };
@@ -81,6 +82,7 @@
 		7E840F041ABF0DD2009BC3A8 /* SettingTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingTableHeaderView.swift; path = GitOdo/SettingTableHeaderView.swift; sourceTree = "<group>"; };
 		7E840F081AC044A6009BC3A8 /* ViewComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewComponents.swift; path = GitOdo/ViewComponents.swift; sourceTree = "<group>"; };
 		7E85EFE11AF73AE00017CCD0 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		7EEAF02E1AF8A06E00836C99 /* ToDoObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToDoObject.swift; path = GitOdo/ToDoObject.swift; sourceTree = "<group>"; };
 		7EEC66F31A98765B0022DA2F /* GitOdo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitOdo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EEC66F71A98765B0022DA2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EEC66F81A98765B0022DA2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				7E61E29A1A9A2C7700A7E2A0 /* IssueObject.swift */,
 				7E61E2A71A9B2FA600A7E2A0 /* UserObject.swift */,
 				7E840EF01AB5DD1C009BC3A8 /* PullRequestObject.swift */,
+				7EEAF02E1AF8A06E00836C99 /* ToDoObject.swift */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				7E6D4AA91A99E35500F42CA3 /* RepositoryObject.swift in Sources */,
 				7EEC66F91A98765B0022DA2F /* AppDelegate.swift in Sources */,
 				7E1C73C41AADD39C0076266D /* ArchiveConnection.swift in Sources */,
+				7EEAF02F1AF8A06E00836C99 /* ToDoObject.swift in Sources */,
 				7E85EFE21AF73AE00017CCD0 /* Extensions.swift in Sources */,
 				7E61E29B1A9A2C7700A7E2A0 /* IssueObject.swift in Sources */,
 				7E61E2A41A9B286400A7E2A0 /* TaskTableViewComponent.swift in Sources */,
