@@ -15,6 +15,7 @@ protocol ToDoObjectProtocol: NSObjectProtocol {
   var number: Int { get }
   var title: String { get }
   var body: String? { get }
+  var comments: Int { get }
 }
 
 class ToDoObject: NSObject {
@@ -24,6 +25,7 @@ class ToDoObject: NSObject {
   let number: Int
   let title: String
   let body: String?
+  let comments: Int
   
   init (todo: JSON, type: String) {
     self.type = type
@@ -31,6 +33,7 @@ class ToDoObject: NSObject {
     self.number = todo["number"].intValue
     self.title = todo["title"].stringValue
     self.body = todo["body"].string
+    self.comments = todo["comments"].int ?? 0
     super.init()
   }
   

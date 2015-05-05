@@ -106,7 +106,7 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource {
     cell.type = todo.type
     cell.issueNumber = todo.number
     cell.isAtYou = todo.body?.rangeOfString("@\(github.account)")?.isEmpty ?? false
-    
+    cell.comments = todo.comments
     return cell
   }
   

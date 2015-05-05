@@ -22,7 +22,6 @@ class IssueObject: ToDoObject {
   let locked: Bool
   let assignee: String?
   let milestone: String?
-  let comments: Int
   let created_at: String
   let updated_at: String
   let closed_at: String?
@@ -39,7 +38,6 @@ class IssueObject: ToDoObject {
     self.locked = issue["locked"].boolValue
     self.assignee = issue["assignee"].string
     self.milestone = issue["milestone"].string
-    self.comments = issue["comments"].intValue
     self.created_at = issue["created_at"].stringValue
     self.updated_at = issue["updated_at"].stringValue
     self.closed_at = issue["closed_at"].string
