@@ -79,7 +79,6 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
     for repository in ArchiveConnection.sharedInstance().repositories {
       GithubConnection.requestIssues(repository, callback: { (issues) in
         self.tableViewComponent.addRepository(repository, issues: issues)
-        self.tableViewComponent.reloadData()
       })
     }
   }
@@ -88,11 +87,9 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
     let repository = ArchiveConnection.sharedInstance().repositories.filter({ $0.owerRepo.isEqual(owerRepo) })[0]
     GithubConnection.requestIssues(repository, callback: { (issues) in
       self.tableViewComponent.addRepository(repository, issues: issues)
-      self.tableViewComponent.reloadData()
     })
     GithubConnection.requestPullRequests(repository, callback: { (pullRequests) in
       self.tableViewComponent.addRepository(repository, pullRequests: pullRequests)
-      self.tableViewComponent.reloadData()
     })
   }
   
@@ -100,7 +97,6 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
     for repository in ArchiveConnection.sharedInstance().repositories {
       GithubConnection.requestPullRequests(repository, callback: { (pullRequests) in
         self.tableViewComponent.addRepository(repository, pullRequests: pullRequests)
-        self.tableViewComponent.reloadData()
       })
     }
   }
@@ -151,26 +147,16 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     var title: String = ""
     var issueNumber: Int = 0
-    if let pullRequest = self.tableViewComponent.data.pullRequest(indexPath) {
-      title = pullRequest.title
-      issueNumber = pullRequest.number
-    }
-    else if let issue = self.tableViewComponent.data.issue(indexPath) {
-      title = issue.title
-      issueNumber = issue.number
-    }
+    let todo = self.tableViewComponent.data.dataSource(indexPath)
+    title = todo.title
+    issueNumber = todo.number
     return TaskTableViewCell.height(self.tableViewComponent, title: title, issueNumber: issueNumber)
   }
   
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     let repository = self.tableViewComponent.data.repositories[indexPath.section]
-    
-    if let pullRequest = self.tableViewComponent.data.pullRequest(indexPath) {
-      self.pushWKWebViewController(pullRequest.html_url)
-    }
-    else if let issue = self.tableViewComponent.data.issue(indexPath) {
-      self.pushWKWebViewController(issue.html_url)
-    }
+    let todo = self.tableViewComponent.data.dataSource(indexPath)
+    self.pushWKWebViewController(todo.html_url)
   }
   
   // MARK: TaskTableViewHeaderViewDelegate

@@ -7,27 +7,24 @@
 //
 
 import UIKit
+import Dollar
 
 class TaskTableViewDataSource: NSObject, UITableViewDataSource {
   
   var searchWord: String = "" {
     didSet {
-      self.filter()
+      self.recreateDataSource()
     }
   }
-  var repositories: [RepositoryObject] = [RepositoryObject]() {
-    didSet {
-      self.repositories.sort{ $0.owerRepo < $1.owerRepo }
-    }
-  }
+  var repositories: [RepositoryObject] = [RepositoryObject]()
   var issues = [String: [IssueObject]]() {
     didSet {
-      self.filter()
+      self.recreateDataSource()
     }
   }
   var pullRequests = [String: [PullRequestObject]]() {
     didSet {
-      self.filter()
+      self.recreateDataSource()
     }
   }
   
@@ -38,82 +35,52 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource {
       self.__repositories.sort{ $0.owerRepo < $1.owerRepo }
     }
   }
-  private var __issues: [String: [IssueObject]] = [String: [IssueObject]]()
-  private var __pullRequests: [String: [PullRequestObject]] = [String: [PullRequestObject]]()
   
-  private func filter () {
-    if (self.searchWord.isEmpty) {
-      self.__repositories = self.repositories
-      self.__issues = self.issues
-      self.__pullRequests = self.pullRequests
-      return
+  private var __dataSource: [String: [ToDoObject]] = [:] {
+    didSet {
+      let owerRepos = $.keys(__dataSource)
+      self.__repositories = $.map(owerRepos, transform: {(owerRepo: String) -> RepositoryObject in
+        return $.find(self.repositories, callback: { $0.owerRepo.isEqual(owerRepo) })!
+      })
     }
+  }
+  
+  private func recreateDataSource () {
+    var fullDataSource: [String: [ToDoObject]] = [:]
+    var dataSource: [String: [ToDoObject]] = [:]
     
-    var __pullRequests = [String: [PullRequestObject]]()
-    var __issues = [String: [IssueObject]]()
-    self.__repositories.removeAll()
+    $.each(self.repositories, callback: { (repository: RepositoryObject) in
+      let owerRepo = repository.owerRepo
+      if let issue = self.issues[owerRepo], let pullRequest = self.pullRequests[owerRepo] {
+        fullDataSource[owerRepo] = $.merge(pullRequest, issue)
+      }
+    })
     
-    for (owerRepo, issues) in self.issues {
-      let filteredIssues = issues.filter({ (issue: IssueObject) -> Bool in
-        if let range = issue.title.rangeOfString("\(self.searchWord)") {
+    for (owerRepo, todos) in fullDataSource {
+      let filteredTodos = todos.filter({ (todo: ToDoObject) -> Bool in
+        if self.searchWord.isEmpty {
           return true
         }
-        return false
+        return todo.title.rangeOfString("\(self.searchWord)") != nil ? true : false
       })
-      
-      if filteredIssues.count > 0 {
-        __issues[owerRepo] = filteredIssues
-        if !contains(self.__repositories, { $0.owerRepo.isEqual(owerRepo) }) {
-          let repository = self.repositories.filter({ $0.owerRepo.isEqual(owerRepo) })[0]
-          self.__repositories.append(repository)
-        }
-      }
-      
-      for (owerRepo, pullRequests) in self.pullRequests {
-        let filteredPullRequests = pullRequests.filter({ (pullRequest: PullRequestObject) -> Bool in
-          if let range = pullRequest.title.rangeOfString("\(self.searchWord)") {
-            return true
-          }
-          return false
-        })
-        
-        if filteredPullRequests.count > 0 {
-          __pullRequests[owerRepo] = filteredPullRequests
-          if !contains(self.__repositories, { $0.owerRepo.isEqual(owerRepo) }) {
-            let repository = self.repositories.filter({ $0.owerRepo.isEqual(owerRepo) })[0]
-            self.__repositories.append(repository)
-          }
-        }
+      if filteredTodos.count > 0 {
+        dataSource[owerRepo] = filteredTodos
       }
     }
-    self.__pullRequests = __pullRequests
-    self.__issues = __issues
+    self.__dataSource = dataSource
   }
   
   // MARK: getter for data sources.
   
   func cellCount (section: Int) -> Int {
     let owerRepo = self.__repositories[section].owerRepo
-    var count = 0
-    count += self.__issues[owerRepo]?.count ?? 0
-    count += self.__pullRequests[owerRepo]?.count ?? 0
-    return count
+    return self.__dataSource[owerRepo]?.count ?? 0
   }
   
-  func pullRequest (indexPath: NSIndexPath) -> PullRequestObject? {
+  func dataSource (indexPath: NSIndexPath) -> ToDoObject {
     let owerRepo = self.__repositories[indexPath.section].owerRepo
-    
-    if indexPath.row >= self.__pullRequests[owerRepo]?.count {
-      return nil
-    }
-    return self.__pullRequests[owerRepo]?[indexPath.row] ?? nil
-  }
-  
-  func issue (indexPath: NSIndexPath) -> IssueObject? {
-    let owerRepo = self.__repositories[indexPath.section].owerRepo
-    let pullRequestsCount = self.__pullRequests[owerRepo]?.count ?? 0
-    let index = indexPath.row - pullRequestsCount
-    return self.__issues[owerRepo]?[index] ?? nil
+    let todos = self.__dataSource[owerRepo]!
+    return todos[indexPath.row]
   }
   
   // MARK: UITableViewDataSource
@@ -129,23 +96,16 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource {
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let repository = self.__repositories[indexPath.section]
     let github = ArchiveConnection.sharedInstance().getGithub(repository: repository)!
+    let todo = self.dataSource(indexPath)
     let cell = tableView.dequeueReusableCellWithIdentifier(
       TaskTableViewCell.identifier,
       forIndexPath: indexPath
       ) as! TaskTableViewCell
     
-    if let pullRequest = self.pullRequest(indexPath) {
-      cell.title = pullRequest.title
-      cell.type = "pullRequest"
-      cell.issueNumber = pullRequest.number
-      cell.isAtYou = pullRequest.body?.rangeOfString("@\(github.account)")?.isEmpty ?? false
-    }
-    else if let issue = self.issue(indexPath) {
-      cell.title = issue.title
-      cell.type = "issue"
-      cell.issueNumber = issue.number
-      cell.isAtYou = issue.body?.rangeOfString("@\(github.account)")?.isEmpty ?? false
-    }
+    cell.title = todo.title
+    cell.type = todo.type
+    cell.issueNumber = todo.number
+    cell.isAtYou = todo.body?.rangeOfString("@\(github.account)")?.isEmpty ?? false
     
     return cell
   }
