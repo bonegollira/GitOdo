@@ -32,7 +32,7 @@ extension SettingViewController: ViewControllerLayout {
       addRepositoryField.left == addRepositoryField.superview!.left
       addRepositoryField.right == addRepositoryField.superview!.right
       addRepositoryField.top == addRepositoryField.superview!.top
-      addRepositoryField.height == 132
+      addRepositoryField.height == 176
     }
   }
   
@@ -41,7 +41,7 @@ extension SettingViewController: ViewControllerLayout {
       addGithubField.left == addGithubField.superview!.left
       addGithubField.right == addGithubField.superview!.right
       addGithubField.top == addGithubField.superview!.top
-      addGithubField.height == 132
+      addGithubField.height == 176
     }
   }
   
@@ -67,7 +67,7 @@ extension SettingViewController: ViewControllerLayout {
   
 }
 
-class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldViewDelegate {
+class SettingViewController: UIViewController, SettingTableViewDelegate, SomeTextFieldViewDelegate {
   
   let tableViewComponent = SettingTableViewComponent(frame: CGRectZero)
   let addRepositoryFieldComponent = SomeTextFieldComponent(configures: [
@@ -100,8 +100,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
     self.addRepositoryFieldComponent.delegate = self
     self.addGithubFieldComponent.delegate = self
     self.tapGestureForRemoveArchive = UITapGestureRecognizer(target: self, action: "removeArchive:")
-    self.tableViewComponent.data.sectionData[0].tapGesture = UITapGestureRecognizer(target: self, action: "beAddingRepository:")
-    self.tableViewComponent.data.sectionData[1].tapGesture = UITapGestureRecognizer(target: self, action: "beAddingGithub:")
     self.render()
   }
   
@@ -111,36 +109,16 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
     self.tableViewComponent.hidden = false
   }
   
-  func beAddingRepository (sender: UITapGestureRecognizer) {
+  func beAddingRepository () {
     self.tableViewComponent.hidden = true
     self.addRepositoryFieldComponent.hidden = false
     self.addRepositoryFieldComponent.becomeFirstResponder()
   }
   
-  func beAddingGithub (sender: UITapGestureRecognizer) {
+  func beAddingGithub () {
     self.tableViewComponent.hidden = true
     self.addGithubFieldComponent.hidden = false
     self.addGithubFieldComponent.becomeFirstResponder()
-  }
-  
-  func didInputedField(component: SomeTextFieldComponent, texts: [String : String]) {
-    if component.isEqual(self.addRepositoryFieldComponent) {
-      ArchiveConnection.sharedInstance().addRepository(
-        texts["ower"]!,
-        repo: texts["repository"]!,
-        enterprise: texts["enterprise"]!
-      )
-      self.addRepositoryFieldComponent.hidden = true
-      self.tableViewComponent.hidden = false
-    }
-    if component.isEqual(self.addGithubFieldComponent) {
-      ArchiveConnection.sharedInstance().addGithub(
-        texts["account"]!,
-        accessToken: texts["accessToken"]!,
-        host: texts["host"]!
-      )
-    }
-    self.beTableViewing()
   }
   
   func bindRemoveButton (indexPath: NSIndexPath) {
@@ -171,6 +149,34 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
     }
   }
   
+  // MARK: SomeTextFieldViewDelegate
+  
+  func someTextFieldView(someTextFieldView: SomeTextFieldComponent, didInputedTexts texts: [String : String]) {
+    if someTextFieldView.isEqual(self.addRepositoryFieldComponent) {
+      ArchiveConnection.sharedInstance().addRepository(
+        texts["ower"]!,
+        repo: texts["repository"]!,
+        enterprise: texts["enterprise"]!
+      )
+      self.addRepositoryFieldComponent.hidden = true
+      self.tableViewComponent.hidden = false
+    }
+    if someTextFieldView.isEqual(self.addGithubFieldComponent) {
+      ArchiveConnection.sharedInstance().addGithub(
+        texts["account"]!,
+        accessToken: texts["accessToken"]!,
+        host: texts["host"]!
+      )
+    }
+    self.beTableViewing()
+  }
+  
+  func someTextFieldViewDidCanceled(someTextFieldView: SomeTextFieldComponent) {
+    self.beTableViewing()
+  }
+  
+  // MARK: SettingTableViewDelegate
+  
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     self.selectingIndexPath = indexPath.isEqual(self.selectingIndexPath) ? nil : indexPath
   }
@@ -185,38 +191,12 @@ class SettingViewController: UIViewController, UITableViewDelegate, SomeFieldVie
     }
   }
   
-  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return 50
+  func settingTableHeaderView (headerView: SettingTableHeaderView, didSelectSection section: Int) {
+    if section == 0 {
+      self.beAddingRepository()
+    }
+    if section == 1 {
+      self.beAddingGithub()
+    }
   }
-  
-  func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    return 44
-  }
-  
-  func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
-      SettingTableHeaderView.identifier
-      ) as! SettingTableHeaderView
-    
-    headerView.sectionName = self.tableViewComponent.data.sectionData[section].name
-    return headerView
-  }
-  
-  func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-    let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
-      SettingTableFooterView.identifier
-      ) as! SettingTableFooterView
-    
-    footerView.addIcon.addGestureRecognizer(self.tableViewComponent.data.sectionData[section].tapGesture)
-    return footerView
-  }
-  
-  func tableView(tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
-    let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
-      SettingTableFooterView.identifier
-      ) as! SettingTableFooterView
-    
-    footerView.addIcon.removeGestureRecognizer(self.tableViewComponent.data.sectionData[section].tapGesture)
-  }
-  
 }

@@ -28,7 +28,7 @@ class UserObject: NSObject {
   let type: String
   let site_admin: Bool
   
-  init (user: JSON) {
+  init (_ user: JSON) {
     self.login = user["login"].stringValue
     self.avatar_url = user["avatar_url"].stringValue
     self.gravatar_id = user["gravatar_id"].stringValue
@@ -45,6 +45,7 @@ class UserObject: NSObject {
     self.received_events_url = user["received_events_url"].stringValue
     self.type = user["type"].stringValue
     self.site_admin = user["site_admin"].boolValue
+    super.init()
   }
    
 }

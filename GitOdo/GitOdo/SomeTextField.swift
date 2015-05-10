@@ -2,8 +2,7 @@
 //  SomeTextField.swift
 //  GitOdo
 //
-//  Created by daisuke on 2015/03/22.
-//  Copyright (c) 2015年 daisuke. All rights reserved.
+//  Copyright (c) 2015 daisuke. All rights reserved.
 //
 
 import UIKit

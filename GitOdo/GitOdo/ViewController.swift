@@ -10,6 +10,7 @@ import UIKit
 import WebKit
 import SwiftyJSON
 import Cartography
+import Dollar
 
 extension ViewController: ViewControllerLayout {
   
@@ -51,7 +52,7 @@ extension ViewController: ViewControllerLayout {
   
 }
 
-class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate, TaskTableViewHeaderViewDelegate {
+class ViewController: UIViewController, UISearchBarDelegate, TaskTableViewDelegate {
   
   let settingButtonItem = UIBarButtonItem()
   let tableViewComponent = TaskTableViewComponent()
@@ -63,57 +64,38 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
     self.settingButtonItem.target = self
     self.settingButtonItem.action = "pushSettingViewController:"
     self.tableViewComponent.delegate = self
-    self.tableViewComponent.refreshControl.addTarget(self, action: "fetchData", forControlEvents: .ValueChanged)
+    self.tableViewComponent.refreshControl.addTarget(self, action: "fetchAllData", forControlEvents: .ValueChanged)
     self.searchBar.delegate = self
     self.render()
-    self.fetchData()
+    self.fetchAllData()
   }
   
-  func fetchData () {
+  func fetchAllData () {
     self.tableViewComponent.refreshControl.endRefreshing()
-    self.fetchIssuesData()
-    self.fetchPullRequestsData()
-  }
-  
-  func fetchIssuesData () {
+    
     for repository in ArchiveConnection.sharedInstance().repositories {
-      GithubConnection.requestIssues(repository, callback: { (issues) in
-        self.tableViewComponent.addRepository(repository, issues: issues)
-      })
+      self.fetchRepositoryByOwerRepo(repository)
     }
   }
   
-  func fetchRepositoryByOwerRepo (owerRepo: String) {
-    let repository = ArchiveConnection.sharedInstance().repositories.filter({ $0.owerRepo.isEqual(owerRepo) })[0]
-    GithubConnection.requestIssues(repository, callback: { (issues) in
-      self.tableViewComponent.addRepository(repository, issues: issues)
-    })
-    GithubConnection.requestPullRequests(repository, callback: { (pullRequests) in
-      self.tableViewComponent.addRepository(repository, pullRequests: pullRequests)
-    })
+  func fetchRepositoryByOwerRepo (repository: RepositoryObject) {
+    GithubConnection.requestIssues(repository, callback: self.fetchData(repository))
+    GithubConnection.requestPullRequests(repository, callback: self.fetchData(repository))
   }
   
-  func fetchPullRequestsData () {
-    for repository in ArchiveConnection.sharedInstance().repositories {
-      GithubConnection.requestPullRequests(repository, callback: { (pullRequests) in
-        self.tableViewComponent.addRepository(repository, pullRequests: pullRequests)
-      })
+  private func fetchData <T: ToDoObjectProtocol> (repository: RepositoryObject) -> ([T]) -> Void {
+    return {[unowned self] (todos: [T]) in
+      self.tableViewComponent.addSource(repository, todos: todos)
     }
   }
   
   func pushSettingViewController (sender: UIBarButtonItem) {
-    self.navigationController?.pushViewController(
-      SettingViewController(),
-      animated: true
-    )
+    self.navigationController?.pushViewController(SettingViewController(), animated: true)
   }
   
   func pushWKWebViewController (url: String) {
     let webViewController = WKWebViewController()
-    self.navigationController?.pushViewController(
-      webViewController,
-      animated: true
-    )
+    self.navigationController?.pushViewController(webViewController, animated: true)
     webViewController.loadURLString(url)
   }
   
@@ -125,44 +107,18 @@ class ViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
     self.pushWKWebViewController(pullRequest.html_url)
   }
   
-  // MARK: UITableViewDelegate
-  
-  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return 25
-  }
-  
-  func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
-      TaskTableViewHeaderView.identifier
-      ) as! TaskTableViewHeaderView
-    let sectionName = self.tableViewComponent.data.sectionName(section)
-    let rowCount = self.tableViewComponent.data.cellCount(section)
-    headerView.delegate = self
-    headerView.repositoryName = sectionName
-    headerView.rowCount = rowCount
-    headerView.section = section
-    return headerView
-  }
-  
-  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    var title: String = ""
-    var issueNumber: Int = 0
-    let todo = self.tableViewComponent.data.dataSource(indexPath)
-    title = todo.title
-    issueNumber = todo.number
-    return TaskTableViewCell.height(self.tableViewComponent, title: title, issueNumber: issueNumber)
-  }
+  // MARK: TaskTableViewDelegate
   
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    let repository = self.tableViewComponent.data.repositories[indexPath.section]
-    let todo = self.tableViewComponent.data.dataSource(indexPath)
+    let todo = self.tableViewComponent.dataSource.getTodo(indexPath)
     self.pushWKWebViewController(todo.html_url)
   }
+
   
   // MARK: TaskTableViewHeaderViewDelegate
   
   func taskTableViewHeaderView(headerView: TaskTableViewHeaderView, didSelectSection section: Int) {
-    self.fetchRepositoryByOwerRepo(headerView.repositoryName)
+    self.fetchRepositoryByOwerRepo(headerView.repository!)
   }
   
   // MARK: UISearchBarDelegate

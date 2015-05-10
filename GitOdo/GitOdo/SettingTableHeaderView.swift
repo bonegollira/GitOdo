@@ -2,8 +2,7 @@
 //  SettingTableHeaderView.swift
 //  GitOdo
 //
-//  Created by daisuke on 2015/03/22.
-//  Copyright (c) 2015年 daisuke. All rights reserved.
+//  Copyright (c) 2015 daisuke. All rights reserved.
 //
 
 import UIKit
@@ -22,6 +21,14 @@ extension SettingTableHeaderView: ViewComponentsDequeueLayout {
     self.titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
   }
   
+  func configure__addButton () {
+    self.addIcon.text = "\u{f05d}"
+    self.addIcon.font = UIFont(name: "octicons", size: 12)
+    self.addIcon.textAlignment = .Center
+    self.addIcon.userInteractionEnabled = true
+    self.addIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
+  }
+  
   func autolayout__titleLabel () {
     layout(self.titleLabel) { titleLabel in
       titleLabel.left == (titleLabel.superview!.left + 20) ~ 250
@@ -30,12 +37,28 @@ extension SettingTableHeaderView: ViewComponentsDequeueLayout {
     }
   }
   
-  func render () {
-    self.contentView.addSubview(self.titleLabel)
-    self.configure__titleLabel()
-    self.autolayout__titleLabel()
+  func autolayout__addButton () {
+    layout(self.addIcon) { addIcon in
+      addIcon.right == addIcon.superview!.right - 20
+      addIcon.bottom == addIcon.superview!.bottom - 5
+      addIcon.width == 18
+      addIcon.height == 18
+    }
   }
   
+  func render () {
+    self.contentView.addSubview(self.titleLabel)
+    self.contentView.addSubview(self.addIcon)
+    self.configure__titleLabel()
+    self.configure__addButton()
+    self.autolayout__titleLabel()
+    self.autolayout__addButton()
+  }
+  
+}
+
+@objc protocol SettingTableHeaderViewDelegate: NSObjectProtocol {
+  optional func settingTableHeaderView(headerView: SettingTableHeaderView, didSelectSection section: Int)
 }
 
 class SettingTableHeaderView: UITableViewHeaderFooterView {
@@ -43,7 +66,10 @@ class SettingTableHeaderView: UITableViewHeaderFooterView {
   class var identifier: String {
     return "SettingTableHeaderView"
   }
+  weak var delegate: SettingTableHeaderViewDelegate?
   let titleLabel = UILabel()
+  let addIcon = UILabel()
+  var section: Int = 0
   var sectionName: String? {
     get {
       return self.titleLabel.text
@@ -64,6 +90,10 @@ class SettingTableHeaderView: UITableViewHeaderFooterView {
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)
     self.render()
+    self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapped:"))
   }
   
+  func tapped (sender: UITapGestureRecognizer) {
+    self.delegate?.settingTableHeaderView?(self, didSelectSection: self.section)
+  }
 }

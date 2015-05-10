@@ -9,7 +9,17 @@
 import UIKit
 import SwiftyJSON
 
-class PullRequestObject: ToDoObject {
+class PullRequestObject: NSObject, ToDoObjectProtocol {
+  
+  // MARK: ToDoObjectProtocol
+  let type: String
+  let html_url: String
+  let number: Int
+  let title: String
+  let body: String?
+  let comments: Int
+  
+  // MARK: IssueObject
   
   let url: String
   let id: Int
@@ -28,11 +38,18 @@ class PullRequestObject: ToDoObject {
   let comments_url: String
   let user: UserObject
   
-  init (pullRequest :JSON) {
+  init (_ pullRequest :JSON) {
+    self.type = "pullRequest"
+    self.html_url = pullRequest["html_url"].stringValue
+    self.number = pullRequest["number"].intValue
+    self.title = pullRequest["title"].stringValue
+    self.body = pullRequest["body"].string
+    self.comments = pullRequest["comments"].int ?? 0
+    
     self.url = pullRequest["url"].stringValue
     self.comments_url = pullRequest["comments_url"].stringValue
     self.id = pullRequest["id"].intValue
-    self.user = UserObject(user: JSON(pullRequest["user"].dictionaryObject!))
+    self.user = UserObject(JSON(pullRequest["user"].dictionaryObject!))
     self.state = pullRequest["state"].stringValue
     self.locked = pullRequest["locked"].boolValue
     self.assignee = pullRequest["assignee"].string
@@ -45,6 +62,6 @@ class PullRequestObject: ToDoObject {
     self.pullRequest_url = pullRequest["pullRequest_url"].stringValue
     self.merge_commit_sha = pullRequest["merge_commit_sha"].stringValue
     self.merged_at = pullRequest["merged_at"].stringValue
-    super.init(todo: pullRequest, type: "pullRequest")
+    super.init()
   }
 }

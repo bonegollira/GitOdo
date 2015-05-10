@@ -9,8 +9,17 @@
 import UIKit
 import SwiftyJSON
 
-class IssueObject: ToDoObject {
+class IssueObject: NSObject, ToDoObjectProtocol {
   
+  // MARK: ToDoObjectProtocol
+  let type: String
+  let html_url: String
+  let number: Int
+  let title: String
+  let body: String?
+  let comments: Int
+  
+  // MARK: IssueObject
   let url: String
   let labels_url: String
   let comments_url: String
@@ -26,13 +35,20 @@ class IssueObject: ToDoObject {
   let updated_at: String
   let closed_at: String?
   
-  init (issue :JSON) {
+  init (_ issue :JSON) {
+    self.type = "issue"
+    self.html_url = issue["html_url"].stringValue
+    self.number = issue["number"].intValue
+    self.title = issue["title"].stringValue
+    self.body = issue["body"].string
+    self.comments = issue["comments"].int ?? 0
+    
     self.url = issue["url"].stringValue
     self.labels_url = issue["labels_url"].stringValue
     self.comments_url = issue["comments_url"].stringValue
     self.events_url = issue["events_url"].stringValue
     self.id = issue["id"].intValue
-    self.user = UserObject(user: JSON(issue["user"].dictionaryObject!))
+    self.user = UserObject(JSON(issue["user"].dictionaryObject!))
     self.labels = issue["labels"]
     self.state = issue["state"].stringValue
     self.locked = issue["locked"].boolValue
@@ -41,7 +57,7 @@ class IssueObject: ToDoObject {
     self.created_at = issue["created_at"].stringValue
     self.updated_at = issue["updated_at"].stringValue
     self.closed_at = issue["closed_at"].string
-    super.init(todo: issue, type: "issue")
+    super.init()
   }
    
 }

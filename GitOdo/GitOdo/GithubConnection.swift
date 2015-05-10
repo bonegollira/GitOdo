@@ -9,6 +9,8 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+//import Alamofire_SwiftyJSON
+import Dollar
 
 class GithubConnection: NSObject {
   
@@ -34,68 +36,59 @@ class GithubConnection: NSObject {
     return request
   }
   
-  class func request (entrypoint: String, parameters: [String: String] = [:]) -> Alamofire.Request {
-    let request = GithubConnection.URLRequest(entrypoint, headers: parameters)
+  class func activeIndicator () -> (NSURLRequest, NSHTTPURLResponse?, AnyObject?, NSError?) -> Void {
     let app = UIApplication.sharedApplication()
     app.networkActivityIndicatorVisible = true
     GithubConnectionProperty.requestingCount++
     
+    return {(_: NSURLRequest, _: NSHTTPURLResponse?, _: AnyObject?, _: NSError?) -> Void in
+      app.networkActivityIndicatorVisible = !(--GithubConnectionProperty.requestingCount == 0)
+    }
+  }
+  
+  class func request (entrypoint: String, parameters: [String: String] = [:]) -> Alamofire.Request {
+    let request = GithubConnection.URLRequest(entrypoint, headers: parameters)
+    let inactiveIndicator = GithubConnection.activeIndicator()
+    
     return Alamofire
       .request(request)
-      //.request(.GET, entrypoint, parameters: parameters)
-      .response({ (this, arguments, dont, use) in
-        app.networkActivityIndicatorVisible = !(--GithubConnectionProperty.requestingCount == 0)
-      })
+      .response(inactiveIndicator)
+  }
+  
+  private class func requestRepo<T> (type: String, repository: RepositoryObject, callback: ([T]) -> Void, transformer: (JSON) -> T) {
+    if let github = ArchiveConnection.sharedInstance().getGithub(repository: repository) {
+      let entrypoint = github.api(type, repo: repository.owerRepo)
+      let parameters = [
+        "Authorization": "token \(github.accessToken)"
+      ]
+      
+      GithubConnection
+        .request(entrypoint, parameters: parameters)
+        .responseJSON(completionHandler: {(request, responce, anyObject, error) in
+          if let arrayObject = anyObject as? Array<AnyObject> {
+            let arguments = $.map(arrayObject, transform: { (rawObject:AnyObject) -> T in
+              return transformer(JSON(rawObject))
+            })
+            callback(arguments)
+          }
+        })
+    }
   }
   
   class func requestIssues (repository: RepositoryObject, callback: ([IssueObject]) -> Void) {
-    
-    if let github = ArchiveConnection.sharedInstance().getGithub(repository: repository) {
-      let entrypoint = github.api("issues", repo: repository.owerRepo)
-      let parameters = [
-        "Authorization": "token \(github.accessToken)"
-      ]
-      
-      GithubConnection
-        .request(entrypoint, parameters: parameters)
-        .responseJSON(completionHandler: {(request, responce, anyObject, error) in
-          if let array = anyObject as? Array<AnyObject> {
-            var issues = array.map({ IssueObject(issue: JSON($0)) })
-            callback(issues)
-          }
-          else  {
-            callback([IssueObject]())
-          }
-        })
-    }
-    else {
-      callback([IssueObject]())
-    }
+    return GithubConnection.requestRepo("issues",
+      repository: repository,
+      callback: callback,
+      transformer: { IssueObject($0) }
+    )
   }
   
   class func requestPullRequests (repository: RepositoryObject, callback: ([PullRequestObject]) -> Void) {
-    
-    if let github = ArchiveConnection.sharedInstance().getGithub(repository: repository) {
-      let entrypoint = github.api("pulls", repo: repository.owerRepo)
-      let parameters = [
-        "Authorization": "token \(github.accessToken)"
-      ]
-      
-      GithubConnection
-        .request(entrypoint, parameters: parameters)
-        .responseJSON(completionHandler: {(request, responce, anyObject, error) in
-          if let array = anyObject as? Array<AnyObject> {
-            var pullRequests = array.map({ PullRequestObject(pullRequest: JSON($0)) })
-            callback(pullRequests)
-          }
-          else {
-            callback([PullRequestObject]())
-          }
-        })
-    }
-    else {
-      callback([PullRequestObject]())
-    }
+    return GithubConnection.requestRepo("pulls",
+      repository: repository,
+      callback: callback,
+      transformer: { PullRequestObject($0) }
+    )
   }
   
   class func requestGravatar (gravatar: String, callback: (UIImage) -> Void) {

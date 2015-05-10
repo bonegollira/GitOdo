@@ -9,94 +9,94 @@
 import UIKit
 import Dollar
 
-class TaskTableViewDataSource: NSObject, UITableViewDataSource {
+class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDelegate, TaskTableViewHeaderViewDelegate {
+  
+  private struct Source {
+    var repository: RepositoryObject
+    var todos: [protocol<ToDoObjectProtocol>] {
+      didSet {
+        self.todos.sort{ $0.type.isEqual("pullRequest") && $1.type.isEqual("issue") }
+      }
+    }
+  }
+  
+  weak var delegate: TaskTableViewDelegate?
+  
+  private var allSource: [Source] = [] {
+    didSet {
+      self.recreateSource()
+    }
+  }
+  
+  private var source: [Source] = [] {
+    didSet {
+      source = source.filter{ $0.todos.count > 0 }
+      source.sort{ $0.repository.owerRepo < $1.repository.owerRepo }
+    }
+  }
   
   var searchWord: String = "" {
     didSet {
-      self.recreateDataSource()
-    }
-  }
-  var repositories: [RepositoryObject] = [RepositoryObject]()
-  var issues = [String: [IssueObject]]() {
-    didSet {
-      self.recreateDataSource()
-    }
-  }
-  var pullRequests = [String: [PullRequestObject]]() {
-    didSet {
-      self.recreateDataSource()
+      self.recreateSource()
     }
   }
   
-  // filter data by search word.
-  
-  private var __repositories: [RepositoryObject] = [RepositoryObject]() {
-    didSet {
-      self.__repositories.sort{ $0.owerRepo < $1.owerRepo }
+  func recreateSource () {
+    if self.searchWord.isEmpty {
+      self.source = self.allSource
     }
-  }
-  
-  private var __dataSource: [String: [ToDoObject]] = [:] {
-    didSet {
-      let owerRepos = $.keys(__dataSource)
-      self.__repositories = $.map(owerRepos, transform: {(owerRepo: String) -> RepositoryObject in
-        return $.find(self.repositories, callback: { $0.owerRepo.isEqual(owerRepo) })!
-      })
-    }
-  }
-  
-  private func recreateDataSource () {
-    var fullDataSource: [String: [ToDoObject]] = [:]
-    var dataSource: [String: [ToDoObject]] = [:]
-    
-    $.each(self.repositories, callback: { (repository: RepositoryObject) in
-      let owerRepo = repository.owerRepo
-      if let issue = self.issues[owerRepo], let pullRequest = self.pullRequests[owerRepo] {
-        fullDataSource[owerRepo] = $.merge(pullRequest, issue)
-      }
-    })
-    
-    for (owerRepo, todos) in fullDataSource {
-      let filteredTodos = todos.filter({ (todo: ToDoObject) -> Bool in
-        if self.searchWord.isEmpty {
-          return true
+    else {
+      self.source = self.allSource.map{(source: Source) -> Source in
+        let todos = source.todos.filter{[unowned self] (todo: protocol<ToDoObjectProtocol>) -> Bool in
+          return todo.title.rangeOfString("\(self.searchWord)") != nil ? true : false
         }
-        return todo.title.rangeOfString("\(self.searchWord)") != nil ? true : false
-      })
-      if filteredTodos.count > 0 {
-        dataSource[owerRepo] = filteredTodos
+        return Source(repository: source.repository, todos: todos)
       }
     }
-    self.__dataSource = dataSource
   }
   
-  // MARK: getter for data sources.
-  
-  func cellCount (section: Int) -> Int {
-    let owerRepo = self.__repositories[section].owerRepo
-    return self.__dataSource[owerRepo]?.count ?? 0
+  func addSource (repository: RepositoryObject, todos: [protocol<ToDoObjectProtocol>]) {
+    if let index = self.getIndexOfRepository(repository) {
+      let newTodos = todos.filter{ [unowned self] (todo: protocol<ToDoObjectProtocol>) in
+        return $.every(self.allSource[index].todos, callback: {
+          return !$0.type.isEqual(todo.type) || $0.number != todo.number
+        })
+      }
+      self.allSource[index].todos += newTodos
+    }
+    else {
+      self.allSource.append(Source(repository: repository, todos: todos))
+    }
   }
   
-  func dataSource (indexPath: NSIndexPath) -> ToDoObject {
-    let owerRepo = self.__repositories[indexPath.section].owerRepo
-    let todos = self.__dataSource[owerRepo]!
-    return todos[indexPath.row]
+  private func getIndexOfRepository (repository: RepositoryObject) -> Int? {
+    return $.findIndex(self.allSource, callback: { (source: Source) -> Bool in
+      return source.repository.owerRepo.isEqual(repository.owerRepo)
+    })
+  }
+  
+  func getRepository (section: Int) -> RepositoryObject {
+    return self.source[section].repository
+  }
+  
+  func getTodo (indexPath: NSIndexPath) -> protocol<ToDoObjectProtocol> {
+    return self.source[indexPath.section].todos[indexPath.row]
   }
   
   // MARK: UITableViewDataSource
   
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return self.__repositories.count
+    return self.source.count
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return self.cellCount(section)
+    return self.source[section].todos.count
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let repository = self.__repositories[indexPath.section]
+    let repository = self.getRepository(indexPath.section)
+    let todo = self.getTodo(indexPath)
     let github = ArchiveConnection.sharedInstance().getGithub(repository: repository)!
-    let todo = self.dataSource(indexPath)
     let cell = tableView.dequeueReusableCellWithIdentifier(
       TaskTableViewCell.identifier,
       forIndexPath: indexPath
@@ -110,10 +110,38 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource {
     return cell
   }
   
-  // MARK: UITableViewDataSource(Custom)
+  // MARK: UITableViewDelegate
   
-  func sectionName (section: Int) -> String {
-    return self.__repositories[section].owerRepo
+  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 44
+  }
+  
+  func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
+      TaskTableViewHeaderView.identifier
+      ) as! TaskTableViewHeaderView
+    headerView.delegate = self
+    headerView.repository = self.getRepository(section)
+    headerView.rowCount = self.source[section].todos.count
+    headerView.section = section
+    return headerView
+  }
+  
+  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    let todo = self.source[indexPath.section].todos[indexPath.row]
+    return TaskTableViewCell.height(tableView, title: todo.title, issueNumber: todo.number)
+  }
+  
+  // @bridge
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    self.delegate?.tableView?(tableView, didSelectRowAtIndexPath: indexPath)
+  }
+  
+  // MARK: TaskTableViewHeaderViewDelegate
+  
+  // @bridge
+  func taskTableViewHeaderView(headerView: TaskTableViewHeaderView, didSelectSection section: Int) {
+    self.delegate?.taskTableViewHeaderView?(headerView, didSelectSection: section)
   }
 
 }
