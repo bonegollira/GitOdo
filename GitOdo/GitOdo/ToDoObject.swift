@@ -27,3 +27,23 @@ import SwiftyJSON
   case PullRequest = 0
   case Issue = 1
 }
+
+func == (lhs: ToDoType, rhs: ToDoType) -> Bool {
+  return lhs.rawValue == rhs.rawValue
+}
+
+func > (lhs: ToDoType, rhs: ToDoType) -> Bool {
+  return lhs.rawValue > rhs.rawValue
+}
+
+func >= (lhs: ToDoType, rhs: ToDoType) -> Bool {
+  return lhs.rawValue >= rhs.rawValue
+}
+
+func < (lhs: ToDoType, rhs: ToDoType) -> Bool {
+  return lhs.rawValue < rhs.rawValue
+}
+
+func <= (lhs: ToDoType, rhs: ToDoType) -> Bool {
+  return lhs.rawValue <= rhs.rawValue
+}

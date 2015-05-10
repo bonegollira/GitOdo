@@ -29,14 +29,14 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
       source = source
         .map{(aSource: Source) -> Source in
           var newSource = aSource
-          let pullRequestNumbers = newSource.todos.filter{ $0.type == ToDoType.PullRequest }.map{ $0.number }
+          let pullRequestNumbers = newSource.todos.filter{ $0.type == .PullRequest }.map{ $0.number }
           newSource.todos = aSource.todos
             .filter{
-              ($0.type == ToDoType.PullRequest) || !contains(pullRequestNumbers, $0.number)
+              ($0.type == .PullRequest) || !contains(pullRequestNumbers, $0.number)
             }
             // 10 ... 1
             .sorted{ $0.number > $1.number }
-            .sorted{ $0.type.rawValue < $1.type.rawValue }
+            .sorted{ $0.type < $1.type }
           return newSource
         }
         .filter{ $0.todos.count > 0 }
