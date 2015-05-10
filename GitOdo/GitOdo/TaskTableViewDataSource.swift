@@ -29,15 +29,14 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
       source = source
         .map{(aSource: Source) -> Source in
           var newSource = aSource
-          let pullRequestNumbers = newSource.todos.filter{ $0.type.isEqual("pullRequest") }.map{ $0.number }
+          let pullRequestNumbers = newSource.todos.filter{ $0.type == ToDoType.PullRequest }.map{ $0.number }
           newSource.todos = aSource.todos
             .filter{
-              $0.type.isEqual("pullRequest") || !contains(pullRequestNumbers, $0.number)
+              ($0.type == ToDoType.PullRequest) || !contains(pullRequestNumbers, $0.number)
             }
             // 10 ... 1
             .sorted{ $0.number > $1.number }
-            // 1. pullRequest 2. issue
-            .sorted{ $0.type > $1.type }
+            .sorted{ $0.type.rawValue < $1.type.rawValue }
           return newSource
         }
         .filter{ $0.todos.count > 0 }
@@ -65,9 +64,9 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
     }
   }
   
-  func addSource (repository: RepositoryObject, type: String, todos: [protocol<ToDoObjectProtocol>]) {
+  func addSource (repository: RepositoryObject, type: ToDoType, todos: [protocol<ToDoObjectProtocol>]) {
     if let index = self.getIndexOfRepository(repository) {
-      let diffTypeTodos = self.allSource[index].todos.filter{ !$0.type.isEqual(type) }
+      let diffTypeTodos = self.allSource[index].todos.filter{ $0.type != type }
       self.allSource[index].todos = diffTypeTodos + todos
     }
     else {

@@ -180,13 +180,13 @@ class TaskTableViewCell: UITableViewCell {
     }
   }
   
-  var type: String? {
+  var type: ToDoType? {
     didSet {
-      if type == "issue" {
+      if type == .Issue {
         self.typeIcon.textColor = rgba(108, 198, 68)
         self.typeIcon.text = "\u{f026}"
       }
-      else if type == "pullRequest" {
+      else if type == .PullRequest {
         self.typeIcon.textColor = rgba(65, 131, 196)
         self.typeIcon.text = "\u{f009}"
       }

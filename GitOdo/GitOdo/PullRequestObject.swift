@@ -12,7 +12,7 @@ import SwiftyJSON
 class PullRequestObject: NSObject, ToDoObjectProtocol {
   
   // MARK: ToDoObjectProtocol
-  let type: String
+  let type: ToDoType
   let html_url: String
   let number: Int
   let title: String
@@ -39,7 +39,7 @@ class PullRequestObject: NSObject, ToDoObjectProtocol {
   let user: UserObject
   
   init (_ pullRequest :JSON) {
-    self.type = "pullRequest"
+    self.type = .PullRequest
     self.html_url = pullRequest["html_url"].stringValue
     self.number = pullRequest["number"].intValue
     self.title = pullRequest["title"].stringValue
