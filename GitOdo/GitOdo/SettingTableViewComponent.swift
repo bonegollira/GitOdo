@@ -2,67 +2,88 @@
 //  SettingTableViewComponent.swift
 //  GitOdo
 //
-//  Created by daisuke on 2015/03/22.
-//  Copyright (c) 2015年 daisuke. All rights reserved.
+//  Copyright (c) 2015 daisuke. All rights reserved.
 //
 
 import UIKit
+import Cartography
 
 extension SettingTableViewComponent: ViewComponentsLayout {
   
-  func configure__self () {
-    self.bounces = false
-    self.estimatedRowHeight = 100
-    self.rowHeight = UITableViewAutomaticDimension
-    self.separatorStyle = .None
-    self.registerClass(
+  func configure__tableView () {
+    self.tableView.bounces = false
+    self.tableView.estimatedRowHeight = 100
+    self.tableView.rowHeight = UITableViewAutomaticDimension
+    self.tableView.separatorStyle = .None
+    self.tableView.registerClass(
       SettingTableViewCell.self,
       forCellReuseIdentifier: SettingTableViewCell.identifier
     )
-    self.registerClass(
+    self.tableView.registerClass(
       SettingTableHeaderView.self,
       forHeaderFooterViewReuseIdentifier: SettingTableHeaderView.identifier
     )
-    self.registerClass(
-      SettingTableFooterView.self,
-      forHeaderFooterViewReuseIdentifier: SettingTableFooterView.identifier
-    )
+  }
+  
+  func autolayout__tableView () {
+    layout(self.tableView) { tableView in
+      tableView.edges == tableView.superview!.edges
+    }
   }
   
   func render (parentView: UIView) {
     parentView.addSubview(self)
-    self.configure__self()
+    self.addSubview(self.tableView)
+    self.configure__tableView()
+    self.autolayout__tableView()
   }
 }
 
-class SettingTableViewComponent: UITableView, ArchiveConnectionDelegate {
+protocol SettingTableViewDelegate: UITableViewDelegate, SettingTableHeaderViewDelegate {
+}
+
+class SettingTableViewComponent: UIView, ArchiveConnectionDelegate {
   
-  let data = SettingTableViewDataSource()
+  weak var delegate: SettingTableViewDelegate? {
+    get {
+      return self.dataSource.delegate
+    }
+    set {
+      self.dataSource.delegate = newValue
+    }
+  }
+  let dataSource = SettingTableViewDataSource()
+  let tableView = UITableView(frame: CGRectZero, style: .Grouped)
   
   required init(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   
   override init (frame: CGRect) {
-    super.init(frame: CGRectZero, style: .Grouped)
-    self.dataSource = self.data
+    super.init(frame: CGRectZero)
+    self.tableView.dataSource = self.dataSource
+    self.tableView.delegate = self.dataSource
     ArchiveConnection.sharedInstance().delegate = self
   }
   
+  func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
+    return self.tableView.cellForRowAtIndexPath(indexPath)
+  }
+  
   func didAddedRepository(repository: RepositoryObject, index: Int) {
-    self.reloadData()
+    self.tableView.reloadData()
   }
   
   func didAddedGithub(github: GithubObject, index: Int) {
-    self.reloadData()
+    self.tableView.reloadData()
   }
   
   func didRemovedRepository(repository: RepositoryObject, index: Int) {
-    self.reloadData()
+    self.tableView.reloadData()
   }
   
   func didRemovedGithub(github: GithubObject, index: Int) {
-    self.reloadData()
+    self.tableView.reloadData()
   }
   
 }

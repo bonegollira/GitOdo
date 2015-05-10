@@ -2,23 +2,25 @@
 //  SettingTableViewDataSource.swift
 //  GitOdo
 //
-//  Created by daisuke on 2015/03/22.
-//  Copyright (c) 2015年 daisuke. All rights reserved.
+//  Copyright (c) 2015 daisuke. All rights reserved.
 //
 
 import UIKit
 
-class SettingTableViewDataSource: NSObject, UITableViewDataSource {
+class SettingTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDelegate, SettingTableHeaderViewDelegate {
   
   struct SectionData {
     let name: String
-    var tapGesture: UITapGestureRecognizer
   }
   
-  var sectionData = [
-    SectionData(name: "REPOSITORY", tapGesture: UITapGestureRecognizer()),
-    SectionData(name: "ACCESS TOKEN", tapGesture: UITapGestureRecognizer())
+  var sectionName: [String] = [
+    "REPOSITORY",
+    "ACCESS TOKEN"
   ]
+  
+  weak var delegate: SettingTableViewDelegate?
+  
+  // MARK: UITableViewDataSource
   
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     return 2
@@ -60,4 +62,42 @@ class SettingTableViewDataSource: NSObject, UITableViewDataSource {
     return cell
   }
   
+  // MARK: UITableViewDelegate
+  
+  func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 50
+  }
+  
+  func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(
+      SettingTableHeaderView.identifier
+      ) as! SettingTableHeaderView
+    
+    headerView.delegate = self
+    headerView.section = section
+    headerView.sectionName = self.sectionName[section]
+    return headerView
+  }
+  
+  // @bridge
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    self.delegate?.tableView?(tableView, didSelectRowAtIndexPath: indexPath)
+  }
+  
+  // @bridge
+  func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+    self.delegate?.tableView?(tableView, didDeselectRowAtIndexPath: indexPath)
+  }
+  
+  // @bridge
+  func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    self.delegate?.tableView?(tableView, didEndDisplayingCell: cell, forRowAtIndexPath: indexPath)
+  }
+  
+  // MARK: SettingTableHeaderViewDelegate
+  
+  // @bridge
+  func settingTableHeaderView(headerView: SettingTableHeaderView, didSelectSection section: Int) {
+    self.delegate?.settingTableHeaderView?(headerView, didSelectSection: section)
+  }
 }

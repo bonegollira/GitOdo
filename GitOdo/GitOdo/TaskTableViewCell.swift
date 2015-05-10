@@ -21,7 +21,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
     self.issueNumberLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.issueNumberLabel.bounds)
   }
   
-  class func height(tableView: TaskTableViewComponent, title: String, issueNumber: Int) -> CGFloat {
+  class func height(tableView: UITableView, title: String, issueNumber: Int) -> CGFloat {
     if Sizing.cell == nil {
       Sizing.cell = tableView.dequeueReusableCellWithIdentifier(TaskTableViewCell.identifier) as? TaskTableViewCell
     }
@@ -68,7 +68,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
   func configure__issueNumberLabel () {
     self.issueNumberLabel.font = UIFont(name: "Helvetica-Bold", size: 10)
     self.issueNumberLabel.textAlignment = .Left
-    self.issueNumberLabel.textColor = rgba(200, 200, 200)
+    self.issueNumberLabel.textColor = rgba(150, 150, 150)
     self.issueNumberLabel.backgroundColor = rgba(0, 0, 0, a: 0)
     self.issueNumberLabel.lineBreakMode = NSLineBreakMode.ByCharWrapping
     self.issueNumberLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -94,7 +94,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
   func autolayout__typeIcon () {
     layout(self.typeIcon) { typeIcon in
       typeIcon.left == typeIcon.superview!.left + 20
-      typeIcon.top == typeIcon.superview!.top + 20
+      typeIcon.top == typeIcon.superview!.top + 15
       typeIcon.width == 20
       typeIcon.height == 20
     }
@@ -113,7 +113,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
     layout(self.titleLabel, self.typeIcon, self.actionIcon) { titleLabel, typeIcon, actionIcon in
       titleLabel.left == typeIcon.right + 20
       titleLabel.right == actionIcon.left - 20
-      titleLabel.top == titleLabel.superview!.top + 20
+      titleLabel.top == titleLabel.superview!.top + 15
     }
   }
   
@@ -121,7 +121,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
     layout(self.issueNumberLabel, self.titleLabel) { issueNumberLabel, titleLabel in
       issueNumberLabel.left == titleLabel.left
       issueNumberLabel.top == titleLabel.bottom + 5
-      issueNumberLabel.bottom == issueNumberLabel.superview!.bottom - 20 ~ 250
+      issueNumberLabel.bottom == issueNumberLabel.superview!.bottom - 15 ~ 250
     }
   }
   
@@ -129,7 +129,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
     layout(self.commentsIcon, self.commentsNumberLabel, self.titleLabel) { commentsIcon, commentsNumberLabel, titleLabel in
       commentsIcon.right == commentsNumberLabel.left - 2
       commentsIcon.top == titleLabel.bottom + 5
-      commentsIcon.bottom == commentsIcon.superview!.bottom - 20 ~ 250
+      commentsIcon.bottom == commentsIcon.superview!.bottom - 15 ~ 250
     }
   }
   
@@ -137,7 +137,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
     layout(self.commentsNumberLabel, self.titleLabel) { commentsNumberLabel, titleLabel in
       commentsNumberLabel.right == titleLabel.right
       commentsNumberLabel.top == titleLabel.bottom + 5
-      commentsNumberLabel.bottom == commentsNumberLabel.superview!.bottom - 20 ~ 250
+      commentsNumberLabel.bottom == commentsNumberLabel.superview!.bottom - 15 ~ 250
     }
   }
   
@@ -221,21 +221,6 @@ class TaskTableViewCell: UITableViewCell {
       self.commentsNumberLabel.hidden = isHidden
     }
   }
-  
-  //  var userIconUrl: String? {
-  //    didSet {
-  //      self.userIconImageView.image = nil
-  //
-  //      if let urlString = userIconUrl {
-  //        GithubConnection.requestGravatar(urlString, { image in
-  //          dispatch_async(dispatch_get_main_queue(), {
-  //            self.userIconImageView.image = image
-  //            self.layoutIfNeeded()
-  //          });
-  //          })
-  //      }
-  //    }
-  //  }
   
   let titleLabel = UILabel()
   let typeIcon = UILabel()

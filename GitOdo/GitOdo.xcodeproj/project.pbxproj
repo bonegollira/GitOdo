@@ -22,7 +22,6 @@
 		7E61E2A81A9B2FA600A7E2A0 /* UserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E61E2A71A9B2FA600A7E2A0 /* UserObject.swift */; };
 		7E636B2E1A9B4AE90060A83F /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E636B2D1A9B4AE90060A83F /* TaskTableViewCell.swift */; };
 		7E6D4AA91A99E35500F42CA3 /* RepositoryObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E6D4AA81A99E35500F42CA3 /* RepositoryObject.swift */; };
-		7E7AE6A61AC242A100754161 /* SettingTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7AE6A51AC242A100754161 /* SettingTableFooterView.swift */; };
 		7E840EF11AB5DD1C009BC3A8 /* PullRequestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E840EF01AB5DD1C009BC3A8 /* PullRequestObject.swift */; };
 		7E840EF31AB722AF009BC3A8 /* octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E840EF21AB722AF009BC3A8 /* octicons.ttf */; };
 		7E840EF81ABEE25E009BC3A8 /* SomeTextFieldComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E840EF71ABEE25E009BC3A8 /* SomeTextFieldComponent.swift */; };
@@ -71,7 +70,6 @@
 		7E61E2A71A9B2FA600A7E2A0 /* UserObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserObject.swift; path = GitOdo/UserObject.swift; sourceTree = "<group>"; };
 		7E636B2D1A9B4AE90060A83F /* TaskTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaskTableViewCell.swift; path = GitOdo/TaskTableViewCell.swift; sourceTree = "<group>"; };
 		7E6D4AA81A99E35500F42CA3 /* RepositoryObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepositoryObject.swift; path = GitOdo/RepositoryObject.swift; sourceTree = "<group>"; };
-		7E7AE6A51AC242A100754161 /* SettingTableFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingTableFooterView.swift; path = GitOdo/SettingTableFooterView.swift; sourceTree = "<group>"; };
 		7E840EF01AB5DD1C009BC3A8 /* PullRequestObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PullRequestObject.swift; path = GitOdo/PullRequestObject.swift; sourceTree = "<group>"; };
 		7E840EF21AB722AF009BC3A8 /* octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = octicons.ttf; sourceTree = "<group>"; };
 		7E840EF71ABEE25E009BC3A8 /* SomeTextFieldComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SomeTextFieldComponent.swift; path = GitOdo/SomeTextFieldComponent.swift; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 				7E840F021ABF06A2009BC3A8 /* SettingTableViewDataSource.swift */,
 				7E840F001ABF0681009BC3A8 /* SettingTableViewCell.swift */,
 				7E840F041ABF0DD2009BC3A8 /* SettingTableHeaderView.swift */,
-				7E7AE6A51AC242A100754161 /* SettingTableFooterView.swift */,
 			);
 			name = SettingTableViewComponent;
 			sourceTree = "<group>";
@@ -438,7 +435,6 @@
 				7E1C73EA1AB5ACC90076266D /* GithubObject.swift in Sources */,
 				7E840F091AC044A6009BC3A8 /* ViewComponents.swift in Sources */,
 				7E61E2A81A9B2FA600A7E2A0 /* UserObject.swift in Sources */,
-				7E7AE6A61AC242A100754161 /* SettingTableFooterView.swift in Sources */,
 				7E1C73C01AAB25E00076266D /* Common.swift in Sources */,
 				7E1C73E01AB47D170076266D /* WKWebViewController.swift in Sources */,
 				7E840EF11AB5DD1C009BC3A8 /* PullRequestObject.swift in Sources */,

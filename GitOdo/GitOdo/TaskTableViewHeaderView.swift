@@ -16,10 +16,10 @@ extension TaskTableViewHeaderView: ViewComponentsDequeueLayout {
   }
   
    func configure__repositoryNameLabel () {
-    self.repositoryNameLabel.font = UIFont(name: "Helvetica-Bold", size: 12)
-    self.repositoryNameLabel.textColor = rgba(255, 255, 255)
-    self.repositoryNameLabel.textAlignment = .Left
-    self.repositoryNameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.repositoryLabel.font = UIFont(name: "Helvetica-Bold", size: 12)
+    self.repositoryLabel.textColor = rgba(255, 255, 255)
+    self.repositoryLabel.textAlignment = .Left
+    self.repositoryLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
   }
   
    func configure__rowCountLabel () {
@@ -38,7 +38,7 @@ extension TaskTableViewHeaderView: ViewComponentsDequeueLayout {
   }
   
   func autolayout__repositoryNameLabel () {
-    layout(self.repositoryNameLabel) { repositoryNameLabel in
+    layout(self.repositoryLabel) { repositoryNameLabel in
       repositoryNameLabel.left == (repositoryNameLabel.superview!.left + 20) ~ 250
       repositoryNameLabel.right == (repositoryNameLabel.superview!.right - 20) ~ 250
       repositoryNameLabel.top == repositoryNameLabel.superview!.top
@@ -47,7 +47,7 @@ extension TaskTableViewHeaderView: ViewComponentsDequeueLayout {
   }
   
   func render () {
-    self.contentView.addSubview(self.repositoryNameLabel)
+    self.contentView.addSubview(self.repositoryLabel)
     self.contentView.addSubview(self.rowCountLabel)
     self.configure__self()
     self.configure__rowCountLabel()
@@ -58,8 +58,8 @@ extension TaskTableViewHeaderView: ViewComponentsDequeueLayout {
   
 }
 
-protocol TaskTableViewHeaderViewDelegate: NSObjectProtocol {
-  func taskTableViewHeaderView(headerView: TaskTableViewHeaderView, didSelectSection section: Int)
+@objc protocol TaskTableViewHeaderViewDelegate: NSObjectProtocol {
+  optional func taskTableViewHeaderView(headerView: TaskTableViewHeaderView, didSelectSection section: Int)
 }
 
 class TaskTableViewHeaderView: UITableViewHeaderFooterView {
@@ -70,14 +70,11 @@ class TaskTableViewHeaderView: UITableViewHeaderFooterView {
   
   weak var delegate: TaskTableViewHeaderViewDelegate?
 
-  let repositoryNameLabel = UILabel()
+  let repositoryLabel = UILabel()
   let rowCountLabel = UILabel()
-  var repositoryName: String {
-    get {
-      return self.repositoryNameLabel.text ?? ""
-    }
-    set {
-      self.repositoryNameLabel.text = newValue
+  var repository: RepositoryObject? {
+    didSet {
+      self.repositoryLabel.text = repository?.owerRepo
     }
   }
   var rowCount: Int = 0 {
@@ -104,6 +101,6 @@ class TaskTableViewHeaderView: UITableViewHeaderFooterView {
   // MARK: TaskTableViewHeaderViewDelegate
   
   func didSelectSection (sender: UITapGestureRecognizer) {
-    self.delegate?.taskTableViewHeaderView(self, didSelectSection: self.section)
+    self.delegate?.taskTableViewHeaderView?(self, didSelectSection: self.section)
   }
 }

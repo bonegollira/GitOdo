@@ -8,64 +8,85 @@
 
 import UIKit
 import SwiftyJSON
+import Cartography
 
 extension TaskTableViewComponent: ViewComponentsLayout {
   
   func configure__self () {
-    self.backgroundColor = rgba(230, 230, 230)
-    self.separatorStyle = .None
-    self.registerClass(
+    self.backgroundColor = rgba(0, 0, 0, a: 0)
+    self.setTranslatesAutoresizingMaskIntoConstraints(false)
+  }
+  
+  func configure__tableView () {
+    self.tableView.backgroundColor = rgba(230, 230, 230)
+    self.tableView.separatorStyle = .None
+    self.tableView.registerClass(
       TaskTableViewCell.self,
       forCellReuseIdentifier: TaskTableViewCell.identifier
     )
-    self.registerClass(
+    self.tableView.registerClass(
       TaskTableViewHeaderView.self,
       forHeaderFooterViewReuseIdentifier: TaskTableViewHeaderView.identifier
     )
-    self.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+  }
+  
+  func autolayout__tableView () {
+    layout(self.tableView) { tableView in
+      tableView.edges == tableView.superview!.edges
+    }
   }
   
   func render (parentView: UIView) {
     parentView.addSubview(self)
-    self.addSubview(self.refreshControl)
-    self.sendSubviewToBack(self.refreshControl)
-    self.configure__self()
+    self.addSubview(self.tableView)
+    self.tableView.addSubview(self.refreshControl)
+    self.tableView.sendSubviewToBack(self.refreshControl)
+    self.configure__tableView()
+    self.autolayout__tableView()
   }
   
 }
 
-class TaskTableViewComponent: UITableView, UITableViewDelegate {
+
+protocol TaskTableViewDelegate: UITableViewDelegate, TaskTableViewHeaderViewDelegate {
+}
+
+class TaskTableViewComponent: UIView {
   
+  weak var delegate: TaskTableViewDelegate? {
+    get {
+      return self.dataSource.delegate
+    }
+    set {
+      self.dataSource.delegate = newValue
+    }
+  }
+  let dataSource = TaskTableViewDataSource()
+  let tableView = UITableView(frame: CGRectZero, style: .Plain)
   let refreshControl = UIRefreshControl()
-  let data = TaskTableViewDataSource()
   
   required init(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   
   init () {
-    super.init(frame: CGRectZero, style: .Plain)
-    self.dataSource = self.data
+    super.init(frame: CGRectZero)
+    self.tableView.delegate = self.dataSource
+    self.tableView.dataSource = self.dataSource
   }
   
-  func addRepository(repository: RepositoryObject, issues: [IssueObject]) {
-    if !contains(self.data.repositories, repository) {
-      self.data.repositories.append(repository)
-    }
-    self.data.issues[repository.owerRepo] = issues
-    self.reloadData()
+  func reloadData () {
+    self.tableView.reloadData()
   }
   
-  func addRepository(repository: RepositoryObject, pullRequests: [PullRequestObject]) {
-    if !contains(self.data.repositories, repository) {
-      self.data.repositories.append(repository)
-    }
-    self.data.pullRequests[repository.owerRepo] = pullRequests
+  func addSource (repository: RepositoryObject, todos: [protocol<ToDoObjectProtocol>]) {
+    self.dataSource.addSource(repository, todos: todos)
     self.reloadData()
   }
   
   func filterBySearchWord (searchWord: String) {
-    self.data.searchWord = searchWord
+    self.dataSource.searchWord = searchWord
     self.reloadData()
   }
 }
