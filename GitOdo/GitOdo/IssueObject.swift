@@ -12,7 +12,7 @@ import SwiftyJSON
 class IssueObject: NSObject, ToDoObjectProtocol {
   
   // MARK: ToDoObjectProtocol
-  let type: String
+  let type: ToDoType
   let html_url: String
   let number: Int
   let title: String
@@ -36,7 +36,7 @@ class IssueObject: NSObject, ToDoObjectProtocol {
   let closed_at: String?
   
   init (_ issue :JSON) {
-    self.type = "issue"
+    self.type = .Issue
     self.html_url = issue["html_url"].stringValue
     self.number = issue["number"].intValue
     self.title = issue["title"].stringValue

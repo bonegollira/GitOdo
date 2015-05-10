@@ -80,7 +80,7 @@ class TaskTableViewComponent: UIView {
     self.tableView.reloadData()
   }
   
-  func addSource (repository: RepositoryObject, type: String, todos: [protocol<ToDoObjectProtocol>]) {
+  func addSource (repository: RepositoryObject, type: ToDoType, todos: [protocol<ToDoObjectProtocol>]) {
     self.dataSource.addSource(repository, type: type, todos: todos)
     self.reloadData()
   }

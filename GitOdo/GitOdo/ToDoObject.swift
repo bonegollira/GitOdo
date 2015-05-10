@@ -15,10 +15,15 @@ import SwiftyJSON
 
  */
 @objc protocol ToDoObjectProtocol: NSObjectProtocol {
-  var type: String { get }
+  var type: ToDoType { get }
   var html_url: String { get }
   var number: Int { get }
   var title: String { get }
   var body: String? { get }
   var comments: Int { get }
+}
+
+@objc enum ToDoType: Int {
+  case PullRequest = 0
+  case Issue = 1
 }
