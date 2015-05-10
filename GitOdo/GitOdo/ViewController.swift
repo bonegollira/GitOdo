@@ -79,13 +79,13 @@ class ViewController: UIViewController, UISearchBarDelegate, TaskTableViewDelega
   }
   
   func fetchRepositoryByOwerRepo (repository: RepositoryObject) {
-    GithubConnection.requestIssues(repository, callback: self.fetchData(repository))
-    GithubConnection.requestPullRequests(repository, callback: self.fetchData(repository))
+    GithubConnection.requestIssues(repository, callback: self.fetchData(repository, type: "issue"))
+    GithubConnection.requestPullRequests(repository, callback: self.fetchData(repository, type: "pullRequest"))
   }
   
-  private func fetchData <T: ToDoObjectProtocol> (repository: RepositoryObject) -> ([T]) -> Void {
+  private func fetchData <T: ToDoObjectProtocol> (repository: RepositoryObject, type: String) -> ([T]) -> Void {
     return {[unowned self] (todos: [T]) in
-      self.tableViewComponent.addSource(repository, todos: todos)
+      self.tableViewComponent.addSource(repository, type: type, todos: todos)
     }
   }
   

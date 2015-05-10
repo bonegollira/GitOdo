@@ -13,13 +13,9 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
   
   private struct Source {
     var repository: RepositoryObject
-    var todos: [protocol<ToDoObjectProtocol>] {
-      didSet {
-        self.todos.sort{ $0.type.isEqual("pullRequest") && $1.type.isEqual("issue") }
-      }
-    }
+    var todos: [protocol<ToDoObjectProtocol>]
   }
-  
+
   weak var delegate: TaskTableViewDelegate?
   
   private var allSource: [Source] = [] {
@@ -30,8 +26,22 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
   
   private var source: [Source] = [] {
     didSet {
-      source = source.filter{ $0.todos.count > 0 }
-      source.sort{ $0.repository.owerRepo < $1.repository.owerRepo }
+      source = source
+        .map{(aSource: Source) -> Source in
+          var newSource = aSource
+          let pullRequestNumbers = newSource.todos.filter{ $0.type.isEqual("pullRequest") }.map{ $0.number }
+          newSource.todos = aSource.todos
+            .filter{
+              $0.type.isEqual("pullRequest") || !contains(pullRequestNumbers, $0.number)
+            }
+            // 10 ... 1
+            .sorted{ $0.number > $1.number }
+            // 1. pullRequest 2. issue
+            .sorted{ $0.type > $1.type }
+          return newSource
+        }
+        .filter{ $0.todos.count > 0 }
+        .sorted{ $0.repository.owerRepo < $1.repository.owerRepo }
     }
   }
   
@@ -55,14 +65,10 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
     }
   }
   
-  func addSource (repository: RepositoryObject, todos: [protocol<ToDoObjectProtocol>]) {
+  func addSource (repository: RepositoryObject, type: String, todos: [protocol<ToDoObjectProtocol>]) {
     if let index = self.getIndexOfRepository(repository) {
-      let newTodos = todos.filter{ [unowned self] (todo: protocol<ToDoObjectProtocol>) in
-        return $.every(self.allSource[index].todos, callback: {
-          return !$0.type.isEqual(todo.type) || $0.number != todo.number
-        })
-      }
-      self.allSource[index].todos += newTodos
+      let diffTypeTodos = self.allSource[index].todos.filter{ !$0.type.isEqual(type) }
+      self.allSource[index].todos = diffTypeTodos + todos
     }
     else {
       self.allSource.append(Source(repository: repository, todos: todos))
