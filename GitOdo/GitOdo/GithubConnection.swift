@@ -55,7 +55,7 @@ class GithubConnection: NSObject {
       .response(inactiveIndicator)
   }
   
-  class func requestRepo<T> (type: String, repository: RepositoryObject, callback: ([T]) -> Void, transformer: (JSON) -> T) {
+  private class func requestRepo<T> (type: String, repository: RepositoryObject, callback: ([T]) -> Void, transformer: (JSON) -> T) {
     if let github = ArchiveConnection.sharedInstance().getGithub(repository: repository) {
       let entrypoint = github.api(type, repo: repository.owerRepo)
       let parameters = [
