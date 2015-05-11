@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Dollar
 
 @objc protocol ArchiveConnectionDelegate: NSObjectProtocol {
   optional func didAddedRepository (repository: RepositoryObject, index: Int)
@@ -29,6 +30,7 @@ class ArchiveConnection: NSObject {
     static let root = NSHomeDirectory().stringByAppendingPathComponent("Documents")
     static let repository = root.stringByAppendingPathComponent("GitOdo.repositories")
     static let github = root.stringByAppendingPathComponent("GitOdo.githubs")
+    static let todos = root.stringByAppendingPathComponent("GitOdo.todos")
   }
 
   var repositories: [RepositoryObject] = [RepositoryObject]() {
@@ -41,6 +43,11 @@ class ArchiveConnection: NSObject {
       NSKeyedArchiver.archiveRootObject(self.githubs, toFile: Directory.github)
     }
   }
+  var todos: [RepositoryObject: [protocol<ToDoObjectProtocol>]] = [:] {
+    didSet {
+      NSKeyedArchiver.archiveRootObject(self.todos, toFile: Directory.todos)
+    }
+  }
   
   weak var delegate: ArchiveConnectionDelegate?
   
@@ -48,6 +55,7 @@ class ArchiveConnection: NSObject {
     super.init()
     self.repositories = self.unarchiveRepositories()
     self.githubs = self.unarchiveGithubs()
+    self.todos = self.unarchiveTodos()
   }
   
   func getGithub (repository _repository: RepositoryObject) -> GithubObject? {
@@ -110,6 +118,20 @@ class ArchiveConnection: NSObject {
     self.addGithub(github)
   }
   
+  func addTodos (repository: RepositoryObject, type: ToDoType, todos: [protocol<ToDoObjectProtocol>]) {
+    let repositoryIfRegsigted = $.find(Array(self.todos.keys), callback: {
+      $0.owerRepo.isEqual(repository.owerRepo)
+    })
+    
+    if let registedRepository = repositoryIfRegsigted {
+      let diffTypeTodos = self.todos[registedRepository]!.filter{ $0.type != type }
+      self.todos[registedRepository]! = diffTypeTodos + todos
+    }
+    else {
+      self.todos[repository] = todos
+    }
+  }
+  
   func removeRepository (repository: RepositoryObject, index: Int) {
     self.repositories.removeAtIndex(index)
     self.delegate?.didRemovedRepository?(repository, index: index)
@@ -154,5 +176,13 @@ class ArchiveConnection: NSObject {
       return archived
     }
     return []
+  }
+  
+  func unarchiveTodos () -> [RepositoryObject: [protocol<ToDoObjectProtocol>]] {
+    let archivedOrNil: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithFile(Directory.todos)
+    if let archived = archivedOrNil as? [RepositoryObject: [protocol<ToDoObjectProtocol>]] {
+      return archived
+    }
+    return [:]
   }
 }

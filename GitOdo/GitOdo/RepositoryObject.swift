@@ -8,7 +8,7 @@
 
 import Foundation
 
-class RepositoryObject: NSObject, NSCoding {
+class RepositoryObject: NSObject, NSCoding, NSCopying {
   
   let host: String
   let ower :String
@@ -35,4 +35,16 @@ class RepositoryObject: NSObject, NSCoding {
     aCoder.encodeObject(self.ower, forKey: "ower")
     aCoder.encodeObject(self.repo, forKey: "repo")
   }
+  
+  /*! must implementation
+  
+  If you use RepositoryObject as Key in Dictionary, should implement NSCopying.
+  This method return copy object by self.
+  
+  */
+  func copyWithZone(zone: NSZone) -> AnyObject {
+    let repository = RepositoryObject(host: self.host, ower: self.ower, repo: self.repo)
+    return repository
+  }
+  
 }
