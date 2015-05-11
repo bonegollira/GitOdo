@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-class UserObject: NSObject {
+class UserObject: NSObject, NSCoding {
   
   let login: String
   let avatar_url: String
@@ -46,6 +46,44 @@ class UserObject: NSObject {
     self.type = user["type"].stringValue
     self.site_admin = user["site_admin"].boolValue
     super.init()
+  }
+  
+  required init(coder aDecoder: NSCoder) {
+    self.login = aDecoder.decodeObjectForKey("login") as! String
+    self.avatar_url = aDecoder.decodeObjectForKey("avatar_url") as! String
+    self.gravatar_id = aDecoder.decodeObjectForKey("gravatar_id") as! String
+    self.url = aDecoder.decodeObjectForKey("url") as! String
+    self.html_url = aDecoder.decodeObjectForKey("html_url") as! String
+    self.followers_url = aDecoder.decodeObjectForKey("followers_url") as! String
+    self.following_url = aDecoder.decodeObjectForKey("following_url") as! String
+    self.gists_url = aDecoder.decodeObjectForKey("gists_url") as! String
+    self.starred_url = aDecoder.decodeObjectForKey("starred_url") as! String
+    self.subscriptions_url = aDecoder.decodeObjectForKey("subscriptions_url") as! String
+    self.organizations_url = aDecoder.decodeObjectForKey("organizations_url") as! String
+    self.repos_url = aDecoder.decodeObjectForKey("repos_url") as! String
+    self.events_url = aDecoder.decodeObjectForKey("events_url") as! String
+    self.received_events_url = aDecoder.decodeObjectForKey("received_events_url") as! String
+    self.type = aDecoder.decodeObjectForKey("type") as! String
+    self.site_admin = aDecoder.decodeObjectForKey("site_admin") as! Bool
+  }
+  
+  func encodeWithCoder(aCoder: NSCoder) {
+    aCoder.encodeObject(self.login, forKey: "login")
+    aCoder.encodeObject(self.avatar_url, forKey: "avatar_url")
+    aCoder.encodeObject(self.gravatar_id, forKey: "gravatar_id")
+    aCoder.encodeObject(self.url, forKey: "url")
+    aCoder.encodeObject(self.html_url, forKey: "html_url")
+    aCoder.encodeObject(self.followers_url, forKey: "followers_url")
+    aCoder.encodeObject(self.following_url, forKey: "following_url")
+    aCoder.encodeObject(self.gists_url, forKey: "gists_url")
+    aCoder.encodeObject(self.starred_url, forKey: "starred_url")
+    aCoder.encodeObject(self.subscriptions_url, forKey: "subscriptions_url")
+    aCoder.encodeObject(self.organizations_url, forKey: "organizations_url")
+    aCoder.encodeObject(self.repos_url, forKey: "repos_url")
+    aCoder.encodeObject(self.events_url, forKey: "events_url")
+    aCoder.encodeObject(self.received_events_url, forKey: "received_events_url")
+    aCoder.encodeObject(self.type, forKey: "type")
+    aCoder.encodeObject(self.site_admin, forKey: "site_admin")
   }
    
 }

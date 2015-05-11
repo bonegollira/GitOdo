@@ -67,7 +67,14 @@ class ViewController: UIViewController, UISearchBarDelegate, TaskTableViewDelega
     self.tableViewComponent.refreshControl.addTarget(self, action: "fetchAllData", forControlEvents: .ValueChanged)
     self.searchBar.delegate = self
     self.render()
+    self.restoreAllData()
     self.fetchAllData()
+  }
+  
+  func restoreAllData () {
+    for (repository, todos) in ArchiveConnection.sharedInstance().todos {
+      self.tableViewComponent.addSource(repository, type: .Issue, todos: todos)
+    }
   }
   
   func fetchAllData () {
@@ -85,6 +92,7 @@ class ViewController: UIViewController, UISearchBarDelegate, TaskTableViewDelega
   
   private func fetchData <T: ToDoObjectProtocol> (repository: RepositoryObject, type: ToDoType) -> ([T]) -> Void {
     return {[unowned self] (todos: [T]) in
+      ArchiveConnection.sharedInstance().addTodos(repository, type: type, todos: todos)
       self.tableViewComponent.addSource(repository, type: type, todos: todos)
     }
   }
