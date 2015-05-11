@@ -122,11 +122,14 @@ class ViewController: UIViewController, UISearchBarDelegate, TaskTableViewDelega
     self.pushWKWebViewController(todo.html_url)
   }
 
-  
   // MARK: TaskTableViewHeaderViewDelegate
   
   func taskTableViewHeaderView(headerView: TaskTableViewHeaderView, didSelectSection section: Int) {
     self.fetchRepositoryByOwerRepo(headerView.repository!)
+  }
+  
+  func taskTableViewHeaderView(headerView: TaskTableViewHeaderView, didSelectAdd section: Int) {
+    self.pushWKWebViewController(headerView.repository!.newIssueUrlString)
   }
   
   // MARK: UISearchBarDelegate

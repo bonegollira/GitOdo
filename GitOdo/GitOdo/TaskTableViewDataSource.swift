@@ -148,5 +148,10 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
   func taskTableViewHeaderView(headerView: TaskTableViewHeaderView, didSelectSection section: Int) {
     self.delegate?.taskTableViewHeaderView?(headerView, didSelectSection: section)
   }
+  
+  // @bridge
+  func taskTableViewHeaderView(headerView: TaskTableViewHeaderView, didSelectAdd section: Int) {
+    self.delegate?.taskTableViewHeaderView?(headerView, didSelectAdd: section)
+  }
 
 }
