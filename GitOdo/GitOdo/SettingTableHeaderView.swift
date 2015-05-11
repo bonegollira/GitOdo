@@ -21,7 +21,7 @@ extension SettingTableHeaderView: ViewComponentsDequeueLayout {
     self.titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
   }
   
-  func configure__addButton () {
+  func configure__addIcon () {
     self.addIcon.text = "\u{f05d}"
     self.addIcon.font = UIFont(name: "octicons", size: 12)
     self.addIcon.textAlignment = .Center
@@ -37,7 +37,7 @@ extension SettingTableHeaderView: ViewComponentsDequeueLayout {
     }
   }
   
-  func autolayout__addButton () {
+  func autolayout__addIcon () {
     layout(self.addIcon) { addIcon in
       addIcon.right == addIcon.superview!.right - 20
       addIcon.bottom == addIcon.superview!.bottom - 5
@@ -50,9 +50,9 @@ extension SettingTableHeaderView: ViewComponentsDequeueLayout {
     self.contentView.addSubview(self.titleLabel)
     self.contentView.addSubview(self.addIcon)
     self.configure__titleLabel()
-    self.configure__addButton()
+    self.configure__addIcon()
     self.autolayout__titleLabel()
-    self.autolayout__addButton()
+    self.autolayout__addIcon()
   }
   
 }

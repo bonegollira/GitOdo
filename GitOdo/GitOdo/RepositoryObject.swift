@@ -18,6 +18,10 @@ class RepositoryObject: NSObject, NSCoding, NSCopying {
     return "\(self.ower)/\(self.repo)"
   }
   
+  var newIssueUrlString: String {
+    return "https://\(self.host)/\(self.owerRepo)/issues/new"
+  }
+  
   init (host: String = "github.com", ower: String, repo: String) {
     self.host = host
     self.ower = ower
