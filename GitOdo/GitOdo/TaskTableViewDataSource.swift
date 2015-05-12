@@ -64,10 +64,9 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
     }
   }
   
-  func addSource (repository: RepositoryObject, type: ToDoType, todos: [protocol<ToDoObjectProtocol>]) {
+  func registSource (repository: RepositoryObject, todos: [protocol<ToDoObjectProtocol>]) {
     if let index = self.getIndexOfRepository(repository) {
-      let diffTypeTodos = self.allSource[index].todos.filter{ $0.type != type }
-      self.allSource[index].todos = diffTypeTodos + todos
+      self.allSource[index].todos = todos
     }
     else {
       self.allSource.append(Source(repository: repository, todos: todos))
