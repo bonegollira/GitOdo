@@ -39,7 +39,7 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
             .sorted{ $0.type < $1.type }
           return newSource
         }
-        .filter{ $0.todos.count > 0 }
+        //.filter{ $0.todos.count > 0 }
         .sorted{ $0.repository.owerRepo < $1.repository.owerRepo }
     }
   }

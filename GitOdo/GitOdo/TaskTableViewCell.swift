@@ -112,7 +112,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
   func autolayout__titleLabel () {
     layout(self.titleLabel, self.typeIcon, self.actionIcon) { titleLabel, typeIcon, actionIcon in
       titleLabel.left == typeIcon.right + 20
-      titleLabel.right == actionIcon.left - 20
+      titleLabel.right == actionIcon.left - 4
       titleLabel.top == titleLabel.superview!.top + 15
     }
   }
