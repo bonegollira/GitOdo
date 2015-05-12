@@ -71,14 +71,21 @@ class ViewController: UIViewController, UISearchBarDelegate, TaskTableViewDelega
     self.fetchAllData()
   }
   
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    ArchiveConnection.sharedInstance().delegate = self.tableViewComponent
+  }
+  
   func restoreAllData () {
     for (repository, todos) in ArchiveConnection.sharedInstance().todos {
-      self.tableViewComponent.addSource(repository, type: .Issue, todos: todos)
+      self.tableViewComponent.dataSource.registSource(repository, todos: todos)
     }
   }
   
   func fetchAllData () {
-    self.tableViewComponent.refreshControl.endRefreshing()
+    if self.tableViewComponent.refreshControl.refreshing {
+      self.tableViewComponent.refreshControl.endRefreshing()
+    }
     
     for repository in ArchiveConnection.sharedInstance().repositories {
       self.fetchRepositoryByOwerRepo(repository)
@@ -93,7 +100,6 @@ class ViewController: UIViewController, UISearchBarDelegate, TaskTableViewDelega
   private func fetchData <T: ToDoObjectProtocol> (repository: RepositoryObject, type: ToDoType) -> ([T]) -> Void {
     return {[unowned self] (todos: [T]) in
       ArchiveConnection.sharedInstance().addTodos(repository, type: type, todos: todos)
-      self.tableViewComponent.addSource(repository, type: type, todos: todos)
     }
   }
   

@@ -14,6 +14,7 @@ import Dollar
   optional func didAddedGithub (github: GithubObject, index: Int)
   optional func didRemovedRepository (repository: RepositoryObject, index: Int)
   optional func didRemovedGithub (github: GithubObject, index: Int)
+  optional func didChangeTodos (todos: [protocol<ToDoObjectProtocol>], inRepository repository: RepositoryObject)
 }
 
 class ArchiveConnection: NSObject {
@@ -119,16 +120,30 @@ class ArchiveConnection: NSObject {
   }
   
   func addTodos (repository: RepositoryObject, type: ToDoType, todos: [protocol<ToDoObjectProtocol>]) {
-    let repositoryIfRegsigted = $.find(Array(self.todos.keys), callback: {
-      $0.owerRepo.isEqual(repository.owerRepo)
-    })
+    var freshTodos: [protocol<ToDoObjectProtocol>]?
     
-    if let registedRepository = repositoryIfRegsigted {
-      let diffTypeTodos = self.todos[registedRepository]!.filter{ $0.type != type }
-      self.todos[registedRepository]! = diffTypeTodos + todos
+    if let registedTodos = self.todos[repository] {
+      let sameTypeTodos = registedTodos.filter{ $0.type == type }
+      let isNew = !$.every(todos, callback: {(todo: protocol<ToDoObjectProtocol>) -> Bool in
+        return contains(sameTypeTodos, {
+          $0.title.isEqual(todo.title) &&
+            $0.number ==  todo.number &&
+            $0.comments == todo.comments
+        })
+      }) || todos.count != sameTypeTodos.count
+      
+      if isNew {
+        let diffTypeTodos = registedTodos.filter{ $0.type != type }
+        freshTodos = diffTypeTodos + todos
+      }
     }
     else {
-      self.todos[repository] = todos
+      freshTodos = todos
+    }
+
+    if let newTodos = freshTodos {
+      self.todos[repository] = newTodos
+      self.delegate?.didChangeTodos?(newTodos, inRepository: repository)
     }
   }
   

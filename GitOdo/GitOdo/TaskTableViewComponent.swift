@@ -31,6 +31,10 @@ extension TaskTableViewComponent: ViewComponentsLayout {
     self.tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
   }
   
+  func configure__refreshControl () {
+    self.refreshControl.backgroundColor = rgba(0, 0, 0)
+  }
+  
   func autolayout__tableView () {
     layout(self.tableView) { tableView in
       tableView.edges == tableView.superview!.edges
@@ -43,6 +47,7 @@ extension TaskTableViewComponent: ViewComponentsLayout {
     self.tableView.addSubview(self.refreshControl)
     self.tableView.sendSubviewToBack(self.refreshControl)
     self.configure__tableView()
+    //self.configure__refreshControl()
     self.autolayout__tableView()
   }
   
@@ -52,7 +57,7 @@ extension TaskTableViewComponent: ViewComponentsLayout {
 protocol TaskTableViewDelegate: UITableViewDelegate, TaskTableViewHeaderViewDelegate {
 }
 
-class TaskTableViewComponent: UIView {
+class TaskTableViewComponent: UIView, ArchiveConnectionDelegate {
   
   weak var delegate: TaskTableViewDelegate? {
     get {
@@ -74,19 +79,22 @@ class TaskTableViewComponent: UIView {
     super.init(frame: CGRectZero)
     self.tableView.delegate = self.dataSource
     self.tableView.dataSource = self.dataSource
+    ArchiveConnection.sharedInstance().delegate = self
   }
   
   func reloadData () {
     self.tableView.reloadData()
   }
   
-  func addSource (repository: RepositoryObject, type: ToDoType, todos: [protocol<ToDoObjectProtocol>]) {
-    self.dataSource.addSource(repository, type: type, todos: todos)
+  func filterBySearchWord (searchWord: String) {
+    self.dataSource.searchWord = searchWord
     self.reloadData()
   }
   
-  func filterBySearchWord (searchWord: String) {
-    self.dataSource.searchWord = searchWord
+  // MARK: ArchiveConnectionDelegate
+  
+  func didChangeTodos(todos: [protocol<ToDoObjectProtocol>], inRepository repository: RepositoryObject) {
+    self.dataSource.registSource(repository, todos: todos)
     self.reloadData()
   }
 }
