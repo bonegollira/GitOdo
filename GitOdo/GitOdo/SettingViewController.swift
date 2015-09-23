@@ -28,7 +28,7 @@ extension SettingViewController: ViewControllerLayout {
   }
   
   func autolayout__addRepositoryField () {
-    layout(self.addRepositoryFieldComponent) { addRepositoryField in
+    constrain(self.addRepositoryFieldComponent) { addRepositoryField in
       addRepositoryField.left == addRepositoryField.superview!.left
       addRepositoryField.right == addRepositoryField.superview!.right
       addRepositoryField.top == addRepositoryField.superview!.top
@@ -37,7 +37,7 @@ extension SettingViewController: ViewControllerLayout {
   }
   
   func autolayout__addGithubField () {
-    layout(self.addGithubFieldComponent) { addGithubField in
+    constrain(self.addGithubFieldComponent) { addGithubField in
       addGithubField.left == addGithubField.superview!.left
       addGithubField.right == addGithubField.superview!.right
       addGithubField.top == addGithubField.superview!.top
@@ -46,7 +46,7 @@ extension SettingViewController: ViewControllerLayout {
   }
   
   func autolayout__tableView () {
-    layout(self.tableViewComponent) { tableView in
+    constrain(self.tableViewComponent) { tableView in
       tableView.edges == tableView.superview!.edges
       return
     }

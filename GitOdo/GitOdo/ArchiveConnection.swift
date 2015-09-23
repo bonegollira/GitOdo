@@ -28,7 +28,7 @@ class ArchiveConnection: NSObject {
   }
   
   private struct Directory {
-    static let root = NSHomeDirectory().stringByAppendingPathComponent("Documents")
+    static let root = (NSHomeDirectory() as NSString).stringByAppendingPathComponent("Documents") as NSString
     static let repository = root.stringByAppendingPathComponent("GitOdo.repositories")
     static let github = root.stringByAppendingPathComponent("GitOdo.githubs")
     static let todos = root.stringByAppendingPathComponent("GitOdo.todos")
@@ -69,7 +69,7 @@ class ArchiveConnection: NSObject {
   }
   
   func addRepository (repository: RepositoryObject) {
-    if !contains(self.repositories, repository) {
+    if !self.repositories.contains(repository) {
       self.repositories.append(repository)
       self.delegate?.didAddedRepository?(repository, index: self.repositories.count)
     }
@@ -125,7 +125,7 @@ class ArchiveConnection: NSObject {
     if let registedTodos = self.todos[repository] {
       let sameTypeTodos = registedTodos.filter{ $0.type == type }
       let isNew = !$.every(todos, callback: {(todo: protocol<ToDoObjectProtocol>) -> Bool in
-        return contains(sameTypeTodos, {
+        return sameTypeTodos.contains({
           $0.title.isEqual(todo.title) &&
             $0.number ==  todo.number &&
             $0.comments == todo.comments
@@ -153,7 +153,7 @@ class ArchiveConnection: NSObject {
   }
   
   func removeRepository (repository: RepositoryObject) {
-    if let index = find(self.repositories, repository) {
+    if let index = self.repositories.indexOf(repository) {
       self.removeRepository(repository, index: index)
     }
   }
@@ -168,7 +168,7 @@ class ArchiveConnection: NSObject {
   }
   
   func removeGithub (github: GithubObject) {
-    if let index = find(self.githubs, github) {
+    if let index = self.githubs.indexOf(github) {
       self.removeGithub(github, index: index)
     }
   }

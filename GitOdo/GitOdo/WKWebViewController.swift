@@ -13,11 +13,11 @@ import Cartography
 extension WKWebViewController: ViewControllerLayout {
   
   func configure__self () {
-    self.view.backgroundColor = rgba(255, 255, 255)
+    self.view.backgroundColor = rgba(255, g: 255, b: 255)
   }
   
   func autolayout__webView () {
-    layout(self.webView) { webView in
+    constrain(self.webView) { webView in
       webView.edges == webView.superview!.edges
       return
     }

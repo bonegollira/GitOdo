@@ -2,9 +2,9 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
 
-pod 'Alamofire', '1.2.0'
-pod 'SwiftyJSON', '2.2.0'
+pod 'Alamofire', '2.0.2'
+pod 'SwiftyJSON', '2.3.0'
 #pod 'Alamofire-SwiftyJSON', :git => "https://github.com/SwiftyJSON/Alamofire-SwiftyJSON.git"
-pod 'Cartography', '0.5.0'
-pod 'Dollar', '3.0.0'
+pod 'Cartography', '0.6.0'
+pod 'Dollar', '4.0.1'
 

@@ -11,7 +11,7 @@ import Cartography
 extension IndicatorViewComponent: ViewComponentsDequeueLayout {
   
   func configure__self () {
-    self.backgroundColor = rgba(44, 93, 142)
+    self.backgroundColor = rgba(44, g: 93, b: 142)
     self.layer.masksToBounds = true
     self.layer.cornerRadius = 5.0
   }
@@ -21,7 +21,7 @@ extension IndicatorViewComponent: ViewComponentsDequeueLayout {
   }
   
   func autolayout__indicatorView () {
-    layout(self.indicatorView) { indicatorView in
+    constrain(self.indicatorView) { indicatorView in
       indicatorView.center == indicatorView.superview!.center
       indicatorView.width == 32
       indicatorView.height == 32
@@ -50,7 +50,7 @@ class IndicatorViewComponent: UIView {
   let indicatorView = UIActivityIndicatorView()
   var isStarting = false
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   

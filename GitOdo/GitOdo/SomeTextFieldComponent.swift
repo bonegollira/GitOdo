@@ -12,20 +12,20 @@ import Cartography
 extension SomeTextFieldComponent: ViewComponentsLayout {
   
   func configure__self () {
-    self.backgroundColor = rgba(255, 255, 255)
-    self.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.backgroundColor = rgba(255, g: 255, b: 255)
+    self.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__bottomBorder () {
-    self.bottomBorder.backgroundColor = rgba(225, 225, 225)
-    self.bottomBorder.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.bottomBorder.backgroundColor = rgba(225, g: 225, b: 225)
+    self.bottomBorder.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__textFields () {
     for textField in self.textFields {
       textField.clearButtonMode = .Always
       textField.font = UIFont(name: "HelveticaNeue", size: 12)
-      textField.setTranslatesAutoresizingMaskIntoConstraints(false)
+      textField.translatesAutoresizingMaskIntoConstraints = false
     }
   }
   
@@ -33,26 +33,26 @@ extension SomeTextFieldComponent: ViewComponentsLayout {
     self.doneIcon.text = "\u{f03a}"
     self.doneIcon.font = UIFont(name: "octicons", size: 18)
     self.doneIcon.textAlignment = .Center
-    self.doneIcon.textColor = rgba(200, 200, 200)
-    self.doneIcon.backgroundColor = rgba(255, 255, 255, a: 0)
+    self.doneIcon.textColor = rgba(200, g: 200, b: 200)
+    self.doneIcon.backgroundColor = rgba(255, g: 255, b: 255, a: 0)
     self.doneIcon.userInteractionEnabled = true
-    self.doneIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.doneIcon.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__cancelIcon () {
     self.cancelIcon.text = "\u{f081}"
     self.cancelIcon.font = UIFont(name: "octicons", size: 18)
     self.cancelIcon.textAlignment = .Center
-    self.cancelIcon.textColor = rgba(255, 0, 0)
-    self.cancelIcon.backgroundColor = rgba(255, 255, 255, a: 0)
+    self.cancelIcon.textColor = rgba(255, g: 0, b: 0)
+    self.cancelIcon.backgroundColor = rgba(255, g: 255, b: 255, a: 0)
     self.cancelIcon.userInteractionEnabled = true
-    self.cancelIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.cancelIcon.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func autolayout__textFields () {
-    for (i, textField) in enumerate(self.textFields) {
+    for (i, _) in self.textFields.enumerate() {
       let top = CGFloat(44 * i)
-      layout(self.textFields[i]) { textField in
+      constrain(self.textFields[i]) { textField in
         textField.left == textField.superview!.left + 20
         textField.right == textField.superview!.right - 20
         textField.top == textField.superview!.top + top
@@ -62,7 +62,7 @@ extension SomeTextFieldComponent: ViewComponentsLayout {
   }
   
   func autolayout__bottomBorder () {
-    layout(self.bottomBorder, self.textFields.last!) { bottomBorder, textField in
+    constrain(self.bottomBorder, self.textFields.last!) { bottomBorder, textField in
       bottomBorder.left == bottomBorder.superview!.left
       bottomBorder.right == bottomBorder.superview!.right
       bottomBorder.top == textField.bottom
@@ -71,7 +71,7 @@ extension SomeTextFieldComponent: ViewComponentsLayout {
   }
   
   func autolayout__doneIcon () {
-    layout(self.doneIcon, self.textFields.last!) {doneIcon, textField in
+    constrain(self.doneIcon, self.textFields.last!) {doneIcon, textField in
       doneIcon.left == doneIcon.superview!.left + 50
       doneIcon.top == textField.bottom
       doneIcon.width == 44
@@ -80,7 +80,7 @@ extension SomeTextFieldComponent: ViewComponentsLayout {
   }
   
   func autolayout__cancelIcon () {
-    layout(self.cancelIcon, self.textFields.last!) {cancelIcon, textField in
+    constrain(self.cancelIcon, self.textFields.last!) {cancelIcon, textField in
       cancelIcon.right == cancelIcon.superview!.right - 50
       cancelIcon.top == textField.bottom
       cancelIcon.width == 44
@@ -131,7 +131,7 @@ class SomeTextFieldComponent: UIView, UITextFieldDelegate {
     }
   }
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   
@@ -152,7 +152,7 @@ class SomeTextFieldComponent: UIView, UITextFieldDelegate {
   }
   
   func becomeFirstResponderRequiredField () -> Bool {
-    let emptyTextFileds = self.textFields.filter({ $0.configure.required && $0.text.isEmpty })
+    let emptyTextFileds = self.textFields.filter({ $0.configure.required && $0.text!.isEmpty })
     let isEmpty = emptyTextFileds.count > 0
     if isEmpty {
       self.responder = emptyTextFileds.first!
@@ -189,9 +189,9 @@ class SomeTextFieldComponent: UIView, UITextFieldDelegate {
   // not delegate
   func textFieldDidChangeCharactersInRange (sender: UITextField) {
     let isInputedAllRquired = $.every(self.textFields, callback: {(textField: SomeTextField) -> Bool in
-      return !(textField.configure.required && textField.text.isEmpty)
+      return !(textField.configure.required && textField.text?.isEmpty ?? false)
     })
-    self.doneIcon.textColor = isInputedAllRquired ? rgba(0, 200, 0) : rgba(200, 200, 200)
+    self.doneIcon.textColor = isInputedAllRquired ? rgba(0, g: 200, b: 0) : rgba(200, g: 200, b: 200)
   }
   
   func textFieldShouldReturn (textField: UITextField) -> Bool {

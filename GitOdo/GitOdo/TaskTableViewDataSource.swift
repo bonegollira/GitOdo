@@ -32,15 +32,15 @@ class TaskTableViewDataSource: NSObject, UITableViewDataSource, UITableViewDeleg
           let pullRequestNumbers = newSource.todos.filter{ $0.type == .PullRequest }.map{ $0.number }
           newSource.todos = aSource.todos
             .filter{
-              ($0.type == .PullRequest) || !contains(pullRequestNumbers, $0.number)
+              ($0.type == .PullRequest) || !pullRequestNumbers.contains($0.number)
             }
             // 10 ... 1
-            .sorted{ $0.number > $1.number }
-            .sorted{ $0.type < $1.type }
+            .sort{ $0.number > $1.number }
+            .sort{ $0.type < $1.type }
           return newSource
         }
         //.filter{ $0.todos.count > 0 }
-        .sorted{ $0.repository.owerRepo < $1.repository.owerRepo }
+        .sort{ $0.repository.owerRepo < $1.repository.owerRepo }
     }
   }
   

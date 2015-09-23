@@ -12,7 +12,7 @@ extension SettingTableViewCell: ViewComponentsDequeueLayout {
   
   func configure__self () {
     self.selectionStyle = .None
-    self.contentView.backgroundColor = rgba(255, 255, 255)
+    self.contentView.backgroundColor = rgba(255, g: 255, b: 255)
   }
   
   func configure__titleLabel () {
@@ -21,14 +21,14 @@ extension SettingTableViewCell: ViewComponentsDequeueLayout {
     self.titleLabel.backgroundColor = UIColor.clearColor()
     self.titleLabel.numberOfLines = 0
     self.titleLabel.lineBreakMode = NSLineBreakMode.ByCharWrapping
-    self.titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__subtitleLabel () {
     self.subtitleLabel.font = UIFont(name: "HelveticaNeue", size: 9)
     self.subtitleLabel.numberOfLines = 0
     self.subtitleLabel.textColor = UIColor.grayColor()
-    self.subtitleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__deleteIcon () {
@@ -36,19 +36,19 @@ extension SettingTableViewCell: ViewComponentsDequeueLayout {
     self.deleteIcon.text = "\u{f081}"
     self.deleteIcon.font = UIFont(name: "octicons", size: 18)
     self.deleteIcon.textAlignment = .Right
-    self.deleteIcon.textColor = rgba(255, 0, 0)
-    self.deleteIcon.backgroundColor = rgba(255, 255, 255)
+    self.deleteIcon.textColor = rgba(255, g: 0, b: 0)
+    self.deleteIcon.backgroundColor = rgba(255, g: 255, b: 255)
     self.deleteIcon.userInteractionEnabled = true
-    self.deleteIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.deleteIcon.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__bottomBorder () {
-    self.bottomBorder.backgroundColor = rgba(225, 225, 225)
-    self.bottomBorder.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.bottomBorder.backgroundColor = rgba(225, g: 225, b: 225)
+    self.bottomBorder.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func autolayout__titleLabel () {
-    layout(self.titleLabel) { titleLabel in
+    constrain(self.titleLabel) { titleLabel in
       titleLabel.left == titleLabel.superview!.left + 20
       titleLabel.right == titleLabel.superview!.right - 20
       titleLabel.top == titleLabel.superview!.top + 15
@@ -57,7 +57,7 @@ extension SettingTableViewCell: ViewComponentsDequeueLayout {
   }
   
   func autolayout__subtitleLabel () {
-    layout(self.subtitleLabel, self.titleLabel) { subtitleLabel, titleLabel in
+    constrain(self.subtitleLabel, self.titleLabel) { subtitleLabel, titleLabel in
       subtitleLabel.top == titleLabel.bottom
       subtitleLabel.bottom == (subtitleLabel.superview!.bottom - 15) ~ 250
       subtitleLabel.left == titleLabel.left
@@ -66,7 +66,7 @@ extension SettingTableViewCell: ViewComponentsDequeueLayout {
   }
   
   func autolayout__bottomBorder () {
-    layout(self.bottomBorder) { bottomBorder in
+    constrain(self.bottomBorder) { bottomBorder in
       bottomBorder.centerX == bottomBorder.superview!.centerX
       bottomBorder.bottom == bottomBorder.superview!.bottom
       bottomBorder.width == bottomBorder.superview!.width - 40
@@ -75,7 +75,7 @@ extension SettingTableViewCell: ViewComponentsDequeueLayout {
   }
   
   func autolayout__deleteIcon () {
-    layout(self.deleteIcon) { deleteIcon in
+    constrain(self.deleteIcon) { deleteIcon in
       deleteIcon.right == deleteIcon.superview!.right - 20
       deleteIcon.centerY == deleteIcon.superview!.centerY
       deleteIcon.width == 30
@@ -135,7 +135,7 @@ class SettingTableViewCell: UITableViewCell {
     }
   }
 
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   

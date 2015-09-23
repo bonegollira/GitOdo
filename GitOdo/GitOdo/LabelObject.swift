@@ -22,7 +22,7 @@ class LabelObject: NSObject, NSCoding {
     super.init()
   }
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     self.url = aDecoder.decodeObjectForKey("url") as! String
     self.name = aDecoder.decodeObjectForKey("name") as! String
     self.color = aDecoder.decodeObjectForKey("color") as! String
