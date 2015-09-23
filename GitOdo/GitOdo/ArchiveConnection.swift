@@ -194,10 +194,11 @@ class ArchiveConnection: NSObject {
   }
   
   func unarchiveTodos () -> [RepositoryObject: [protocol<ToDoObjectProtocol>]] {
-    let archivedOrNil: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithFile(Directory.todos)
-    if let archived = archivedOrNil as? [RepositoryObject: [protocol<ToDoObjectProtocol>]] {
-      return archived
-    }
+//    let archivedOrNil: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithFile(Directory.todos)
+//    print(archivedOrNil)
+//    if let archived = archivedOrNil as? [RepositoryObject: [protocol<ToDoObjectProtocol>]] {
+//      return archived
+//    }
     return [:]
   }
 }
