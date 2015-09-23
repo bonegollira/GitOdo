@@ -60,7 +60,7 @@ class IssueObject: NSObject, ToDoObjectProtocol {
     super.init()
   }
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     self.type = ToDoType.fromInt(aDecoder.decodeObjectForKey("type") as! Int)
     self.html_url = aDecoder.decodeObjectForKey("html_url") as! String
     self.number = aDecoder.decodeObjectForKey("number") as! Int

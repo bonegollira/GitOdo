@@ -11,14 +11,14 @@ import Cartography
 extension SettingTableHeaderView: ViewComponentsDequeueLayout {
   
   func configure__self () {
-    self.contentView.backgroundColor = rgba(0, 0, 0, a:0)
+    self.contentView.backgroundColor = rgba(0, g: 0, b: 0, a:0)
   }
   
   func configure__titleLabel () {
     self.titleLabel.font = UIFont(name: "Helvetica-Bold", size: 12)
-    self.titleLabel.textColor = rgba(44, 93, 142)
+    self.titleLabel.textColor = rgba(44, g: 93, b: 142)
     self.titleLabel.textAlignment = .Left
-    self.titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__addIcon () {
@@ -26,11 +26,11 @@ extension SettingTableHeaderView: ViewComponentsDequeueLayout {
     self.addIcon.font = UIFont(name: "octicons", size: 12)
     self.addIcon.textAlignment = .Center
     self.addIcon.userInteractionEnabled = true
-    self.addIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.addIcon.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func autolayout__titleLabel () {
-    layout(self.titleLabel) { titleLabel in
+    constrain(self.titleLabel) { titleLabel in
       titleLabel.left == (titleLabel.superview!.left + 20) ~ 250
       titleLabel.right == (titleLabel.superview!.right - 20) ~ 250
       titleLabel.bottom == titleLabel.superview!.bottom - 5
@@ -38,7 +38,7 @@ extension SettingTableHeaderView: ViewComponentsDequeueLayout {
   }
   
   func autolayout__addIcon () {
-    layout(self.addIcon) { addIcon in
+    constrain(self.addIcon) { addIcon in
       addIcon.right == addIcon.superview!.right - 20
       addIcon.bottom == addIcon.superview!.bottom - 5
       addIcon.width == 18
@@ -79,13 +79,13 @@ class SettingTableHeaderView: UITableViewHeaderFooterView {
     }
   }
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
-  
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-  }
+ 
+//  override init(frame: CGRect) {
+//    super.init(frame: frame)
+//  }
   
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)

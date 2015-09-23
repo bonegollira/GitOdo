@@ -13,12 +13,12 @@ import Cartography
 extension TaskTableViewComponent: ViewComponentsLayout {
   
   func configure__self () {
-    self.backgroundColor = rgba(0, 0, 0, a: 0)
-    self.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.backgroundColor = rgba(0, g: 0, b: 0, a: 0)
+    self.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__tableView () {
-    self.tableView.backgroundColor = rgba(230, 230, 230)
+    self.tableView.backgroundColor = rgba(230, g: 230, b: 230)
     self.tableView.separatorStyle = .None
     self.tableView.registerClass(
       TaskTableViewCell.self,
@@ -28,15 +28,15 @@ extension TaskTableViewComponent: ViewComponentsLayout {
       TaskTableViewHeaderView.self,
       forHeaderFooterViewReuseIdentifier: TaskTableViewHeaderView.identifier
     )
-    self.tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.tableView.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__refreshControl () {
-    self.refreshControl.backgroundColor = rgba(0, 0, 0)
+    self.refreshControl.backgroundColor = rgba(0, g: 0, b: 0)
   }
   
   func autolayout__tableView () {
-    layout(self.tableView) { tableView in
+    constrain(self.tableView) { tableView in
       tableView.edges == tableView.superview!.edges
     }
   }
@@ -71,7 +71,7 @@ class TaskTableViewComponent: UIView, ArchiveConnectionDelegate {
   let tableView = UITableView(frame: CGRectZero, style: .Plain)
   let refreshControl = UIRefreshControl()
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   

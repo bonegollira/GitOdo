@@ -17,7 +17,7 @@ class SomeTextField: UITextField {
 
   let configure: SomeTextFieldConfigure
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     self.configure = SomeTextFieldConfigure(id: "", placeholder: "", required: false)
     super.init(coder: aDecoder)
   }

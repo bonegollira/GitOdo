@@ -34,7 +34,7 @@ extension ViewController: ViewControllerLayout {
   }
   
   func autolayout__tableView () {
-    layout(self.tableViewComponent) { issuesTableView in
+    constrain(self.tableViewComponent) { issuesTableView in
       issuesTableView.edges == issuesTableView.superview!.edges
       return
     }
@@ -98,7 +98,7 @@ class ViewController: UIViewController, UISearchBarDelegate, TaskTableViewDelega
   }
   
   private func fetchData <T: ToDoObjectProtocol> (repository: RepositoryObject, type: ToDoType) -> ([T]) -> Void {
-    return {[unowned self] (todos: [T]) in
+    return {(todos: [T]) in
       ArchiveConnection.sharedInstance().addTodos(repository, type: type, todos: todos)
     }
   }

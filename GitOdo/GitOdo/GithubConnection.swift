@@ -36,12 +36,12 @@ class GithubConnection: NSObject {
     return request
   }
   
-  class func activeIndicator () -> (NSURLRequest, NSHTTPURLResponse?, AnyObject?, NSError?) -> Void {
+  class func activeIndicator () -> (NSURLRequest?, NSHTTPURLResponse?, NSData?, ErrorType?) -> Void {
     let app = UIApplication.sharedApplication()
     app.networkActivityIndicatorVisible = true
     GithubConnectionProperty.requestingCount++
     
-    return {(_: NSURLRequest, _: NSHTTPURLResponse?, _: AnyObject?, _: NSError?) -> Void in
+    return {(_: NSURLRequest?, _: NSHTTPURLResponse?, _: NSData?, _: ErrorType?) -> Void in
       app.networkActivityIndicatorVisible = !(--GithubConnectionProperty.requestingCount == 0)
     }
   }
@@ -52,7 +52,7 @@ class GithubConnection: NSObject {
     
     return Alamofire
       .request(request)
-      .response(inactiveIndicator)
+      .response(completionHandler: inactiveIndicator)
   }
   
   private class func requestRepo<T> (type: String, repository: RepositoryObject, callback: ([T]) -> Void, transformer: (JSON) -> T) {
@@ -64,8 +64,8 @@ class GithubConnection: NSObject {
       
       GithubConnection
         .request(entrypoint, parameters: parameters)
-        .responseJSON(completionHandler: {(request, responce, anyObject, error) in
-          if let arrayObject = anyObject as? Array<AnyObject> {
+        .responseJSON(completionHandler: {(request, responce, anyObject) in
+          if let arrayObject = anyObject.value as? Array<AnyObject> {
             let arguments = $.map(arrayObject, transform: { (rawObject:AnyObject) -> T in
               return transformer(JSON(rawObject))
             })
@@ -94,8 +94,8 @@ class GithubConnection: NSObject {
   class func requestGravatar (gravatar: String, callback: (UIImage) -> Void) {
     Alamofire
       .request(.GET, gravatar)
-      .response({ (request, responce, data, error) in
-        if let image = UIImage(data: data as! NSData) {
+      .response(completionHandler: { (request, responce, data, error) in
+        if let image = UIImage(data: data!) {
           callback(image)
         }
       })

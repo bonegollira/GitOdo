@@ -26,7 +26,7 @@ extension SettingTableViewComponent: ViewComponentsLayout {
   }
   
   func autolayout__tableView () {
-    layout(self.tableView) { tableView in
+    constrain(self.tableView) { tableView in
       tableView.edges == tableView.superview!.edges
     }
   }
@@ -55,7 +55,7 @@ class SettingTableViewComponent: UIView, ArchiveConnectionDelegate {
   let dataSource = SettingTableViewDataSource()
   let tableView = UITableView(frame: CGRectZero, style: .Grouped)
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   

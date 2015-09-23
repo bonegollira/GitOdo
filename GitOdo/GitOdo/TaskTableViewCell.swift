@@ -48,51 +48,51 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
     self.titleLabel.backgroundColor = UIColor.clearColor()
     self.titleLabel.numberOfLines = 0
     self.titleLabel.lineBreakMode = NSLineBreakMode.ByCharWrapping
-    self.titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__typeIcon () {
     self.typeIcon.textAlignment = .Left
     self.typeIcon.font = UIFont(name: "octicons", size: 18)
-    self.typeIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.typeIcon.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__actionIcon () {
     self.actionIcon.text = "\u{f078}"
     self.actionIcon.textAlignment = .Right
-    self.actionIcon.textColor = rgba(200, 200, 200)
+    self.actionIcon.textColor = rgba(200, g: 200, b: 200)
     self.actionIcon.font = UIFont(name: "octicons", size: 14)
-    self.actionIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.actionIcon.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__issueNumberLabel () {
     self.issueNumberLabel.font = UIFont(name: "Helvetica-Bold", size: 10)
     self.issueNumberLabel.textAlignment = .Left
-    self.issueNumberLabel.textColor = rgba(150, 150, 150)
-    self.issueNumberLabel.backgroundColor = rgba(0, 0, 0, a: 0)
+    self.issueNumberLabel.textColor = rgba(150, g: 150, b: 150)
+    self.issueNumberLabel.backgroundColor = rgba(0, g: 0, b: 0, a: 0)
     self.issueNumberLabel.lineBreakMode = NSLineBreakMode.ByCharWrapping
-    self.issueNumberLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.issueNumberLabel.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__commentsIcon () {
     self.commentsIcon.text = "\u{f02b}"
     self.commentsIcon.textAlignment = .Right
-    self.commentsIcon.textColor = rgba(150, 150, 150)
+    self.commentsIcon.textColor = rgba(150, g: 150, b: 150)
     self.commentsIcon.font = UIFont(name: "octicons", size: 10)
-    self.commentsIcon.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.commentsIcon.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func configure__commentsNumberLabel () {
     self.commentsNumberLabel.font = UIFont(name: "Helvetica-Bold", size: 10)
     self.commentsNumberLabel.textAlignment = .Right
-    self.commentsNumberLabel.textColor = rgba(150, 150, 150)
-    self.commentsNumberLabel.backgroundColor = rgba(0, 0, 0, a: 0)
+    self.commentsNumberLabel.textColor = rgba(150, g: 150, b: 150)
+    self.commentsNumberLabel.backgroundColor = rgba(0, g: 0, b: 0, a: 0)
     self.commentsNumberLabel.lineBreakMode = NSLineBreakMode.ByCharWrapping
-    self.commentsNumberLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.commentsNumberLabel.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func autolayout__typeIcon () {
-    layout(self.typeIcon) { typeIcon in
+    constrain(self.typeIcon) { typeIcon in
       typeIcon.left == typeIcon.superview!.left + 20
       typeIcon.top == typeIcon.superview!.top + 15
       typeIcon.width == 20
@@ -101,7 +101,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
   }
   
   func autolayout__actionIcon () {
-    layout(self.actionIcon, self.titleLabel) { actionIcon, titleLabel in
+    constrain(self.actionIcon, self.titleLabel) { actionIcon, titleLabel in
       actionIcon.right == actionIcon.superview!.right - 20
       actionIcon.centerY == actionIcon.superview!.centerY
       actionIcon.width == 20
@@ -110,7 +110,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
   }
   
   func autolayout__titleLabel () {
-    layout(self.titleLabel, self.typeIcon, self.actionIcon) { titleLabel, typeIcon, actionIcon in
+    constrain(self.titleLabel, self.typeIcon, self.actionIcon) { titleLabel, typeIcon, actionIcon in
       titleLabel.left == typeIcon.right + 20
       titleLabel.right == actionIcon.left - 4
       titleLabel.top == titleLabel.superview!.top + 15
@@ -118,7 +118,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
   }
   
   func autolayout__issueNumberLabel () {
-    layout(self.issueNumberLabel, self.titleLabel) { issueNumberLabel, titleLabel in
+    constrain(self.issueNumberLabel, self.titleLabel) { issueNumberLabel, titleLabel in
       issueNumberLabel.left == titleLabel.left
       issueNumberLabel.top == titleLabel.bottom + 5
       issueNumberLabel.bottom == issueNumberLabel.superview!.bottom - 15 ~ 250
@@ -126,7 +126,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
   }
   
   func autolayout__commentsIcon () {
-    layout(self.commentsIcon, self.commentsNumberLabel, self.titleLabel) { commentsIcon, commentsNumberLabel, titleLabel in
+    constrain(self.commentsIcon, self.commentsNumberLabel, self.titleLabel) { commentsIcon, commentsNumberLabel, titleLabel in
       commentsIcon.right == commentsNumberLabel.left - 2
       commentsIcon.top == titleLabel.bottom + 5
       commentsIcon.bottom == commentsIcon.superview!.bottom - 15 ~ 250
@@ -134,7 +134,7 @@ extension TaskTableViewCell: ViewComponentsDequeueLayout {
   }
   
   func autolayout__commentsNumberLabel () {
-    layout(self.commentsNumberLabel, self.titleLabel) { commentsNumberLabel, titleLabel in
+    constrain(self.commentsNumberLabel, self.titleLabel) { commentsNumberLabel, titleLabel in
       commentsNumberLabel.right == titleLabel.right
       commentsNumberLabel.top == titleLabel.bottom + 5
       commentsNumberLabel.bottom == commentsNumberLabel.superview!.bottom - 15 ~ 250
@@ -183,11 +183,11 @@ class TaskTableViewCell: UITableViewCell {
   var type: ToDoType? {
     didSet {
       if type == .Issue {
-        self.typeIcon.textColor = rgba(108, 198, 68)
+        self.typeIcon.textColor = rgba(108, g: 198, b: 68)
         self.typeIcon.text = "\u{f026}"
       }
       else if type == .PullRequest {
-        self.typeIcon.textColor = rgba(65, 131, 196)
+        self.typeIcon.textColor = rgba(65, g: 131, b: 196)
         self.typeIcon.text = "\u{f009}"
       }
     }
@@ -196,14 +196,14 @@ class TaskTableViewCell: UITableViewCell {
   var isAtYou: Bool = false {
     didSet {
       if isAtYou {
-        self.typeIcon.textColor = rgba(255, 128, 0)
+        self.typeIcon.textColor = rgba(255, g: 128, b: 0)
       }
     }
   }
   
   var issueNumber: Int {
     get {
-      return self.issueNumberLabel.text?.toInt() ?? 0
+      return Int(self.issueNumberLabel.text ?? "0")!
     }
     set {
       self.issueNumberLabel.text = "#\(newValue)"
@@ -212,7 +212,7 @@ class TaskTableViewCell: UITableViewCell {
   
   var comments: Int {
     get {
-      return self.commentsNumberLabel.text?.toInt() ?? 0
+      return Int(self.commentsNumberLabel.text ?? "0")!
     }
     set {
       let isHidden = newValue == 0
@@ -229,7 +229,7 @@ class TaskTableViewCell: UITableViewCell {
   let commentsIcon = UILabel()
   let commentsNumberLabel = UILabel()
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   

@@ -48,7 +48,7 @@ class UserObject: NSObject, NSCoding {
     super.init()
   }
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     self.login = aDecoder.decodeObjectForKey("login") as! String
     self.avatar_url = aDecoder.decodeObjectForKey("avatar_url") as! String
     self.gravatar_id = aDecoder.decodeObjectForKey("gravatar_id") as! String

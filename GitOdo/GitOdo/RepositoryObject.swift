@@ -28,7 +28,7 @@ class RepositoryObject: NSObject, NSCoding, NSCopying {
     self.repo = repo
   }
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     self.host = aDecoder.decodeObjectForKey("host") as! String
     self.ower = aDecoder.decodeObjectForKey("ower") as! String
     self.repo = aDecoder.decodeObjectForKey("repo") as! String

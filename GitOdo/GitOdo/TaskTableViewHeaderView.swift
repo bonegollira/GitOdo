@@ -12,27 +12,27 @@ import Cartography
 extension TaskTableViewHeaderView: ViewComponentsDequeueLayout {
   
   func configure__self () {
-    self.contentView.backgroundColor = rgba(44, 93, 142)
+    self.contentView.backgroundColor = rgba(44, g: 93, b: 142)
   }
   
    func configure__repositoryNameLabel () {
     self.repositoryLabel.font = UIFont(name: "Helvetica-Bold", size: 12)
-    self.repositoryLabel.textColor = rgba(255, 255, 255)
+    self.repositoryLabel.textColor = rgba(255, g: 255, b: 255)
     self.repositoryLabel.textAlignment = .Left
     self.repositoryLabel.userInteractionEnabled = true
-    self.repositoryLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.repositoryLabel.translatesAutoresizingMaskIntoConstraints = false
   }
   
    func configure__rowCountLabel () {
     self.rowCountLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 12)
-    self.rowCountLabel.textColor = rgba(255, 255, 255)
+    self.rowCountLabel.textColor = rgba(255, g: 255, b: 255)
     self.rowCountLabel.textAlignment = .Right
     self.rowCountLabel.userInteractionEnabled = true
-    self.rowCountLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+    self.rowCountLabel.translatesAutoresizingMaskIntoConstraints = false
   }
   
   func autolayout__repositoryNameLabel () {
-    layout(self.repositoryLabel, self.rowCountLabel) { repositoryNameLabel, rowCountLabel in
+    constrain(self.repositoryLabel, self.rowCountLabel) { repositoryNameLabel, rowCountLabel in
       repositoryNameLabel.left == repositoryNameLabel.superview!.left + 20 ~ 250
       repositoryNameLabel.right == rowCountLabel.left - 5 ~ 249
       repositoryNameLabel.top == repositoryNameLabel.superview!.top
@@ -41,7 +41,7 @@ extension TaskTableViewHeaderView: ViewComponentsDequeueLayout {
   }
   
   func autolayout__rowCountLabel () {
-    layout(self.rowCountLabel) { rowCountLabel in
+    constrain(self.rowCountLabel) { rowCountLabel in
       rowCountLabel.right == rowCountLabel.superview!.right - 20 ~ 250
       rowCountLabel.top == rowCountLabel.superview!.top
       rowCountLabel.bottom == rowCountLabel.superview!.bottom
@@ -91,21 +91,21 @@ class TaskTableViewHeaderView: UITableViewHeaderFooterView {
   var isEmpty = false {
     didSet {
       if isEmpty {
-        self.contentView.backgroundColor = rgba(44, 93, 142, a: 0)
+        self.contentView.backgroundColor = rgba(44, g: 93, b: 142, a: 0)
       }
       else {
-        self.contentView.backgroundColor = rgba(44, 93, 142)
+        self.contentView.backgroundColor = rgba(44, g: 93, b: 142)
       }
     }
   }
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-  }
+//  override init(frame: CGRect) {
+//    super.init(frame: frame)
+//  }
   
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)
