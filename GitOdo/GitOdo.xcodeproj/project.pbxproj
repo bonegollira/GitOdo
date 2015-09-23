@@ -1,0 +1,506 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7EE548FC1BB2BEC600B7F4AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE548FB1BB2BEC600B7F4AA /* AppDelegate.swift */; };
+		7EE548FE1BB2BEC600B7F4AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE548FD1BB2BEC600B7F4AA /* ViewController.swift */; };
+		7EE549011BB2BEC600B7F4AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EE548FF1BB2BEC600B7F4AA /* Main.storyboard */; };
+		7EE549031BB2BEC600B7F4AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EE549021BB2BEC600B7F4AA /* Assets.xcassets */; };
+		7EE549061BB2BEC600B7F4AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EE549041BB2BEC600B7F4AA /* LaunchScreen.storyboard */; };
+		7EE549111BB2BEC600B7F4AA /* GitOdoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE549101BB2BEC600B7F4AA /* GitOdoTests.swift */; };
+		7EE5491C1BB2BEC600B7F4AA /* GitOdoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE5491B1BB2BEC600B7F4AA /* GitOdoUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7EE5490D1BB2BEC600B7F4AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EE548F01BB2BEC600B7F4AA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7EE548F71BB2BEC600B7F4AA;
+			remoteInfo = GitOdo;
+		};
+		7EE549181BB2BEC600B7F4AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EE548F01BB2BEC600B7F4AA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7EE548F71BB2BEC600B7F4AA;
+			remoteInfo = GitOdo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7EE548F81BB2BEC600B7F4AA /* GitOdo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitOdo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EE548FB1BB2BEC600B7F4AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7EE548FD1BB2BEC600B7F4AA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7EE549001BB2BEC600B7F4AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7EE549021BB2BEC600B7F4AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7EE549051BB2BEC600B7F4AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7EE549071BB2BEC600B7F4AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7EE5490C1BB2BEC600B7F4AA /* GitOdoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GitOdoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EE549101BB2BEC600B7F4AA /* GitOdoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitOdoTests.swift; sourceTree = "<group>"; };
+		7EE549121BB2BEC600B7F4AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7EE549171BB2BEC600B7F4AA /* GitOdoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GitOdoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EE5491B1BB2BEC600B7F4AA /* GitOdoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitOdoUITests.swift; sourceTree = "<group>"; };
+		7EE5491D1BB2BEC600B7F4AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7EE548F51BB2BEC600B7F4AA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EE549091BB2BEC600B7F4AA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EE549141BB2BEC600B7F4AA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7EE548EF1BB2BEC600B7F4AA = {
+			isa = PBXGroup;
+			children = (
+				7EE548FA1BB2BEC600B7F4AA /* GitOdo */,
+				7EE5490F1BB2BEC600B7F4AA /* GitOdoTests */,
+				7EE5491A1BB2BEC600B7F4AA /* GitOdoUITests */,
+				7EE548F91BB2BEC600B7F4AA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7EE548F91BB2BEC600B7F4AA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7EE548F81BB2BEC600B7F4AA /* GitOdo.app */,
+				7EE5490C1BB2BEC600B7F4AA /* GitOdoTests.xctest */,
+				7EE549171BB2BEC600B7F4AA /* GitOdoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7EE548FA1BB2BEC600B7F4AA /* GitOdo */ = {
+			isa = PBXGroup;
+			children = (
+				7EE548FB1BB2BEC600B7F4AA /* AppDelegate.swift */,
+				7EE548FD1BB2BEC600B7F4AA /* ViewController.swift */,
+				7EE548FF1BB2BEC600B7F4AA /* Main.storyboard */,
+				7EE549021BB2BEC600B7F4AA /* Assets.xcassets */,
+				7EE549041BB2BEC600B7F4AA /* LaunchScreen.storyboard */,
+				7EE549071BB2BEC600B7F4AA /* Info.plist */,
+			);
+			path = GitOdo;
+			sourceTree = "<group>";
+		};
+		7EE5490F1BB2BEC600B7F4AA /* GitOdoTests */ = {
+			isa = PBXGroup;
+			children = (
+				7EE549101BB2BEC600B7F4AA /* GitOdoTests.swift */,
+				7EE549121BB2BEC600B7F4AA /* Info.plist */,
+			);
+			path = GitOdoTests;
+			sourceTree = "<group>";
+		};
+		7EE5491A1BB2BEC600B7F4AA /* GitOdoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7EE5491B1BB2BEC600B7F4AA /* GitOdoUITests.swift */,
+				7EE5491D1BB2BEC600B7F4AA /* Info.plist */,
+			);
+			path = GitOdoUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7EE548F71BB2BEC600B7F4AA /* GitOdo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EE549201BB2BEC600B7F4AA /* Build configuration list for PBXNativeTarget "GitOdo" */;
+			buildPhases = (
+				7EE548F41BB2BEC600B7F4AA /* Sources */,
+				7EE548F51BB2BEC600B7F4AA /* Frameworks */,
+				7EE548F61BB2BEC600B7F4AA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GitOdo;
+			productName = GitOdo;
+			productReference = 7EE548F81BB2BEC600B7F4AA /* GitOdo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7EE5490B1BB2BEC600B7F4AA /* GitOdoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EE549231BB2BEC600B7F4AA /* Build configuration list for PBXNativeTarget "GitOdoTests" */;
+			buildPhases = (
+				7EE549081BB2BEC600B7F4AA /* Sources */,
+				7EE549091BB2BEC600B7F4AA /* Frameworks */,
+				7EE5490A1BB2BEC600B7F4AA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7EE5490E1BB2BEC600B7F4AA /* PBXTargetDependency */,
+			);
+			name = GitOdoTests;
+			productName = GitOdoTests;
+			productReference = 7EE5490C1BB2BEC600B7F4AA /* GitOdoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7EE549161BB2BEC600B7F4AA /* GitOdoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EE549261BB2BEC600B7F4AA /* Build configuration list for PBXNativeTarget "GitOdoUITests" */;
+			buildPhases = (
+				7EE549131BB2BEC600B7F4AA /* Sources */,
+				7EE549141BB2BEC600B7F4AA /* Frameworks */,
+				7EE549151BB2BEC600B7F4AA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7EE549191BB2BEC600B7F4AA /* PBXTargetDependency */,
+			);
+			name = GitOdoUITests;
+			productName = GitOdoUITests;
+			productReference = 7EE549171BB2BEC600B7F4AA /* GitOdoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7EE548F01BB2BEC600B7F4AA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = daisuke;
+				TargetAttributes = {
+					7EE548F71BB2BEC600B7F4AA = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					7EE5490B1BB2BEC600B7F4AA = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 7EE548F71BB2BEC600B7F4AA;
+					};
+					7EE549161BB2BEC600B7F4AA = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 7EE548F71BB2BEC600B7F4AA;
+					};
+				};
+			};
+			buildConfigurationList = 7EE548F31BB2BEC600B7F4AA /* Build configuration list for PBXProject "GitOdo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7EE548EF1BB2BEC600B7F4AA;
+			productRefGroup = 7EE548F91BB2BEC600B7F4AA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7EE548F71BB2BEC600B7F4AA /* GitOdo */,
+				7EE5490B1BB2BEC600B7F4AA /* GitOdoTests */,
+				7EE549161BB2BEC600B7F4AA /* GitOdoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7EE548F61BB2BEC600B7F4AA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EE549061BB2BEC600B7F4AA /* LaunchScreen.storyboard in Resources */,
+				7EE549031BB2BEC600B7F4AA /* Assets.xcassets in Resources */,
+				7EE549011BB2BEC600B7F4AA /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EE5490A1BB2BEC600B7F4AA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EE549151BB2BEC600B7F4AA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7EE548F41BB2BEC600B7F4AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EE548FE1BB2BEC600B7F4AA /* ViewController.swift in Sources */,
+				7EE548FC1BB2BEC600B7F4AA /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EE549081BB2BEC600B7F4AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EE549111BB2BEC600B7F4AA /* GitOdoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EE549131BB2BEC600B7F4AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EE5491C1BB2BEC600B7F4AA /* GitOdoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7EE5490E1BB2BEC600B7F4AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7EE548F71BB2BEC600B7F4AA /* GitOdo */;
+			targetProxy = 7EE5490D1BB2BEC600B7F4AA /* PBXContainerItemProxy */;
+		};
+		7EE549191BB2BEC600B7F4AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7EE548F71BB2BEC600B7F4AA /* GitOdo */;
+			targetProxy = 7EE549181BB2BEC600B7F4AA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7EE548FF1BB2BEC600B7F4AA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7EE549001BB2BEC600B7F4AA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		7EE549041BB2BEC600B7F4AA /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7EE549051BB2BEC600B7F4AA /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7EE5491E1BB2BEC600B7F4AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7EE5491F1BB2BEC600B7F4AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7EE549211BB2BEC600B7F4AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = GitOdo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gollira.GitOdo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7EE549221BB2BEC600B7F4AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = GitOdo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gollira.GitOdo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7EE549241BB2BEC600B7F4AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = GitOdoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gollira.GitOdoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GitOdo.app/GitOdo";
+			};
+			name = Debug;
+		};
+		7EE549251BB2BEC600B7F4AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = GitOdoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gollira.GitOdoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GitOdo.app/GitOdo";
+			};
+			name = Release;
+		};
+		7EE549271BB2BEC600B7F4AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = GitOdoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gollira.GitOdoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = GitOdo;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		7EE549281BB2BEC600B7F4AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = GitOdoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gollira.GitOdoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = GitOdo;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7EE548F31BB2BEC600B7F4AA /* Build configuration list for PBXProject "GitOdo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EE5491E1BB2BEC600B7F4AA /* Debug */,
+				7EE5491F1BB2BEC600B7F4AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7EE549201BB2BEC600B7F4AA /* Build configuration list for PBXNativeTarget "GitOdo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EE549211BB2BEC600B7F4AA /* Debug */,
+				7EE549221BB2BEC600B7F4AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7EE549231BB2BEC600B7F4AA /* Build configuration list for PBXNativeTarget "GitOdoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EE549241BB2BEC600B7F4AA /* Debug */,
+				7EE549251BB2BEC600B7F4AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7EE549261BB2BEC600B7F4AA /* Build configuration list for PBXNativeTarget "GitOdoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EE549271BB2BEC600B7F4AA /* Debug */,
+				7EE549281BB2BEC600B7F4AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7EE548F01BB2BEC600B7F4AA /* Project object */;
+}
